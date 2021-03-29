@@ -11,7 +11,9 @@
 namespace cs126linkedlist {
 
 template <typename ElementType>
-LinkedList<ElementType>::LinkedList() {}
+LinkedList<ElementType>::LinkedList() {
+  head_ = nullptr;
+}
 
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {}
@@ -28,7 +30,8 @@ LinkedList<ElementType>::LinkedList(LinkedList<ElementType>&& source) noexcept {
 
 // Destructor
 template <typename ElementType>
-LinkedList<ElementType>::~LinkedList() {}
+LinkedList<ElementType>::~LinkedList() {
+}
 
 // Copy assignment operator
 template <typename ElementType>
@@ -41,16 +44,47 @@ LinkedList<ElementType>& LinkedList<ElementType>::operator=(
     LinkedList<ElementType>&& source) noexcept {}
 
 template <typename ElementType>
-void LinkedList<ElementType>::push_front(const ElementType& value) {}
+void LinkedList<ElementType>::push_front(const ElementType& value) {
+  Node *new_node_ = new Node;
+  new_node_->element_ = value;
+  new_node_->next_ = head_;
+  head_ = new_node_;
+}
 
 template <typename ElementType>
-void LinkedList<ElementType>::push_back(const ElementType& value) {}
+void LinkedList<ElementType>::push_back(const ElementType& value) {
+  Node *new_node_ = new Node;
+  new_node_->next_ = nullptr;
+  new_node_->element_ = value;
+  if (head_ == nullptr) {
+    head_ = new_node_;
+  }
+  Node * curr = head_;
+  while (curr->next_ != nullptr) {
+    curr = curr->next_;
+  }
+  curr->next_ = new_node_;
+}
 
 template <typename ElementType>
-ElementType LinkedList<ElementType>::front() const {}
+ElementType LinkedList<ElementType>::front() const {
+  if (head_ == nullptr) {
+    throw std::invalid_argument("Empty list");
+  }
+  return head_->element_;
+}
 
 template <typename ElementType>
-ElementType LinkedList<ElementType>::back() const {}
+ElementType LinkedList<ElementType>::back() const {
+  if (head_ == nullptr) {
+    throw std::invalid_argument("Empty list");
+  }
+  Node *curr = head_;
+  while (curr != nullptr) {
+    curr = curr->next_;
+  }
+  return curr->element_;
+}
 
 template <typename ElementType>
 void LinkedList<ElementType>::pop_front() {}
@@ -59,10 +93,20 @@ template <typename ElementType>
 void LinkedList<ElementType>::pop_back() {}
 
 template <typename ElementType>
-size_t LinkedList<ElementType>::size() const {}
+size_t LinkedList<ElementType>::size() const {
+  size_t count = 0;
+  Node *curr = head_;
+  while (curr != nullptr) {
+    count++;
+    curr = curr->next_;
+  }
+  return count;
+}
 
 template <typename ElementType>
-bool LinkedList<ElementType>::empty() const {}
+bool LinkedList<ElementType>::empty() const {
+  return head_ == nullptr;
+}
 
 template <typename ElementType>
 void LinkedList<ElementType>::clear() {}
