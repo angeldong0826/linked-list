@@ -1,4 +1,4 @@
-// Copyright (c) 2020 [Your Name]. All rights reserved.
+// Copyright (c) 2021 Angel Dong. All rights reserved.
 
 #define CATCH_CONFIG_MAIN
 
@@ -48,18 +48,42 @@ TEST_CASE("Push Front") {
 }
 
 TEST_CASE("Size") {
+  LinkedList<int> list;
 
+  SECTION("No element in list") {
+    REQUIRE(list.size() == 0);
+  }
+
+  SECTION("One element in list") {
+    list.push_front(10000);
+    REQUIRE(list.size() == 1);
+  }
+
+  SECTION("Multiple elements in list") {
+    list.push_front(-1);
+    list.push_front(10000);
+    REQUIRE(list.size() == 2);
+  }
 }
 
 TEST_CASE("Front") {
   LinkedList<int> list;
-
   REQUIRE(list.size() == 0);
   REQUIRE(list.empty());
 
-  list.push_front(-1);
-  list.push_front(10000);
-  REQUIRE(list.front() == 10000);
+  SECTION("No element in list") {
+  }
+
+  SECTION("One element in list") {
+    list.push_front(10000);
+    REQUIRE(list.front() == 10000);
+  }
+
+  SECTION("Multiple elements in list") {
+    list.push_front(-1);
+    list.push_front(10000);
+    REQUIRE(list.front() == 10000);
+  }
 }
 
 TEST_CASE("Back") {
@@ -68,9 +92,85 @@ TEST_CASE("Back") {
   REQUIRE(list.size() == 0);
   REQUIRE(list.empty());
 
-  list.push_front(-1);
-  list.push_front(10000);
-  REQUIRE(list.back() == -1);
+  SECTION("No element in list") {
+  }
+
+  SECTION("One element in list") {
+    list.push_front(10000);
+    REQUIRE(list.back() == 10000);
+  }
+
+  SECTION("Multiple elements in list") {
+    list.push_front(-1);
+    list.push_front(10000);
+    REQUIRE(list.back() == -1);
+  }
 }
 
-// TODO(you): Add more tests below.
+TEST_CASE("Clear") {
+  LinkedList<int> list;
+
+  REQUIRE(list.size() == 0);
+  REQUIRE(list.empty());
+
+  SECTION("No element in list") {
+  }
+
+  SECTION("One element in list") {
+    list.push_front(10);
+    list.clear();
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
+  }
+
+  SECTION("Multiple elements in list") {
+
+  }
+}
+
+TEST_CASE("Pop Front") {
+  LinkedList<int> list;
+
+  REQUIRE(list.size() == 0);
+  REQUIRE(list.empty());
+
+  SECTION("No element in list") {
+  }
+
+  SECTION("One element in list") {
+    list.push_front(10);
+    list.pop_front();
+    REQUIRE(list.size() == 0);
+  }
+
+  SECTION("Multiple elements in list") {
+    list.push_front(10);
+    list.push_back(10000);
+    list.pop_front();
+    REQUIRE(list.size() == 1);
+    REQUIRE(list.front() ==  10000);
+  }
+}
+
+TEST_CASE("Pop Back") {
+  LinkedList<int> list;
+
+  REQUIRE(list.size() == 0);
+  REQUIRE(list.empty());
+
+  SECTION("No element in list") {
+  }
+
+  SECTION("One element in list") {
+    list.push_back(10);
+    list.pop_back();
+    REQUIRE(list.size() == 0);
+  }
+
+  SECTION("Multiple elements in list") {
+    list.push_front(10);
+    list.push_back(10000);
+    list.pop_back();
+    REQUIRE(list.size() == 1);
+  }
+}

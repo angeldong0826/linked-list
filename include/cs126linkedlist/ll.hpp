@@ -56,14 +56,17 @@ void LinkedList<ElementType>::push_back(const ElementType& value) {
   Node *new_node_ = new Node;
   new_node_->next_ = nullptr;
   new_node_->element_ = value;
+
   if (head_ == nullptr) {
     head_ = new_node_;
+  } else {
+    Node* curr = head_;
+
+    while (curr->next_ != nullptr) {
+      curr = curr->next_;
+    }
+    curr->next_ = new_node_;
   }
-  Node * curr = head_;
-  while (curr->next_ != nullptr) {
-    curr = curr->next_;
-  }
-  curr->next_ = new_node_;
 }
 
 template <typename ElementType>
@@ -80,17 +83,40 @@ ElementType LinkedList<ElementType>::back() const {
     throw std::invalid_argument("Empty list");
   }
   Node *curr = head_;
-  while (curr != nullptr) {
+  while (curr->next_ != nullptr) {
     curr = curr->next_;
   }
   return curr->element_;
 }
 
 template <typename ElementType>
-void LinkedList<ElementType>::pop_front() {}
+void LinkedList<ElementType>::pop_front() {
+  if (head_ == nullptr) {
+    throw std::invalid_argument("Empty list");
+  }
+  Node *curr = head_;
+  head_ = head_->next_;
+  delete curr;
+}
 
 template <typename ElementType>
-void LinkedList<ElementType>::pop_back() {}
+void LinkedList<ElementType>::pop_back() {
+  if (head_ == nullptr) {
+    throw std::invalid_argument("Empty list");
+  }
+  if (head_->next_ == nullptr) {
+    delete head_;
+    head_ = nullptr;
+    return;
+  }
+  Node *curr = head_;
+  Node *second_to_last_ = head_->next_;
+  while (second_to_last_->next_ != nullptr) {
+    curr = curr->next_;
+  }
+  delete second_to_last_;
+  curr->next_ = nullptr;
+}
 
 template <typename ElementType>
 size_t LinkedList<ElementType>::size() const {
@@ -109,7 +135,15 @@ bool LinkedList<ElementType>::empty() const {
 }
 
 template <typename ElementType>
-void LinkedList<ElementType>::clear() {}
+void LinkedList<ElementType>::clear() {
+  Node *curr = head_;
+  while (curr != nullptr) {
+    Node *next = curr->next_;
+    delete curr;
+    curr = next;
+  }
+  head_ == nullptr;
+}
 
 template <typename ElementType>
 std::ostream& operator<<(std::ostream& os,
