@@ -11,6 +11,26 @@ using cs126linkedlist::LinkedList;
 // Read more on SECTIONs here:
 // `https://github.com/catchorg/Catch2/tree/master/docs`
 // in the "Test Cases and Sections" file.
+
+TEST_CASE("Destructor") {
+  LinkedList<int> list;
+
+  REQUIRE(list.size() == 0);
+  REQUIRE(list.empty());
+
+  SECTION("Empty list") {
+
+  }
+
+  SECTION("List with one element") {
+
+  }
+
+  SECTION("List with multiple elements") {
+
+  }
+}
+
 TEST_CASE("Push Back", "[constructor][push_back][size][empty]") {
   LinkedList<int> list;
 
@@ -184,7 +204,6 @@ TEST_CASE("Call on Front and Back") {
     list.push_back(89);
     list.push_back(689);
 
-
     REQUIRE(list.size() == 4);
     REQUIRE(list.front() == 10000);
     REQUIRE(list.back() == 689);
@@ -278,6 +297,7 @@ TEST_CASE("Pop Back") {
     list.pop_back();
 
     REQUIRE(list.front() == 10);
+
     list.pop_back();
 
     REQUIRE(list.size() == 0);
@@ -376,9 +396,11 @@ TEST_CASE("Remove Nth") {
     REQUIRE(list.back() == 45);
 
     list.RemoveNth(0);
+
     REQUIRE(list.size() == 2);
 
     list.RemoveNth(1);
+
     REQUIRE(list.size() == 1);
     REQUIRE(list.front() == 37);
     REQUIRE(list.back() == 37);
@@ -440,5 +462,107 @@ TEST_CASE("Remove Nth") {
     REQUIRE(list.size() == 2);
     REQUIRE(list.front() == 8969);
     REQUIRE(list.back() == 459);
+  }
+
+  SECTION("Remove multiple times") {
+    list.push_back(45);
+    list.push_front(37);
+    list.push_front(8896);
+    list.push_back(345678);
+
+    REQUIRE(list.size() == 4);
+    REQUIRE(list.front() == 8896);
+    REQUIRE(list.back() == 345678);
+
+    list.RemoveNth(1);
+    list.RemoveNth(2);
+
+    REQUIRE(list.size() == 2);
+    REQUIRE(list.front() == 8896);
+    REQUIRE(list.back() == 45);
+  }
+}
+
+TEST_CASE("Remove odd") {
+  LinkedList<int> list;
+
+  REQUIRE(list.size() == 0);
+  REQUIRE(list.empty());
+
+  SECTION("Minimum two elements") {
+    list.push_front(1);
+    list.push_back(2);
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 1);
+    REQUIRE(list.front() == 1);
+    REQUIRE(list.back() == 1);
+  }
+
+  SECTION("Four elements") {
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+    list.push_back(4);
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 2);
+    REQUIRE(list.front() == 1);
+    REQUIRE(list.back() == 3);
+  }
+
+  SECTION("Even amount of indexes") {
+    list.push_back(459);
+    list.push_front(37);
+    list.push_front(8969);
+    list.push_back(345678);
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 2);
+    REQUIRE(list.front() == 8969);
+    REQUIRE(list.back() == 459);
+  }
+
+  SECTION("Odd amount of indexes") {
+    list.push_back(459);
+    list.push_front(37);
+    list.push_front(8969);
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 2);
+    REQUIRE(list.front() == 8969);
+    REQUIRE(list.back() == 459);
+  }
+
+  SECTION("Remove multiple times, test list update after removal") {
+    list.push_back(459);
+    list.push_front(37);
+    list.push_front(8969);
+    list.push_back(345678);
+    list.push_back(-4567890);
+    list.push_back(0);
+    list.push_back(82601);
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 4);
+    REQUIRE(list.front() == 8969);
+    REQUIRE(list.back() == 82601);
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 2);
+    REQUIRE(list.front() == 8969);
+    REQUIRE(list.back() == -4567890);
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 1);
+    REQUIRE(list.front() == 8969);
+    REQUIRE(list.back() == 8969);
   }
 }

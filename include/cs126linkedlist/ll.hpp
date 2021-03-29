@@ -6,8 +6,6 @@
 #include <utility>
 #include <vector>
 
-// TODO(you): Implement these methods.
-
 namespace cs126linkedlist {
 
 template <typename ElementType>
@@ -31,12 +29,48 @@ LinkedList<ElementType>::LinkedList(LinkedList<ElementType>&& source) noexcept {
 // Destructor
 template <typename ElementType>
 LinkedList<ElementType>::~LinkedList() {
+//  if (head_ == nullptr) {
+//    throw std::invalid_argument("Empty list");
+//  }
+
+  Node *before_ = nullptr;
+
+  while (head_ != nullptr) {
+    before_ = head_;
+    head_ = head_->next_;
+    delete before_;
+  }
 }
 
 // Copy assignment operator
 template <typename ElementType>
 LinkedList<ElementType>& LinkedList<ElementType>::operator=(
-    const LinkedList<ElementType>& source) {}
+    const LinkedList<ElementType>& source) {
+  if (head_ == nullptr) {
+    throw std::invalid_argument("Empty List");
+  }
+
+  if (source.head_ == nullptr) {
+    throw std::invalid_argument("Empty Input List");
+  }
+
+  Node *new_node_;
+  Node *curr_ = source.head_;
+
+  while (curr_ != nullptr) {
+    new_node_->element_ = curr_->element_;
+    curr_ = curr_->next_;
+
+    while (curr_ != nullptr) {
+      new_node_->next_ = new Node;
+      new_node_ = new_node_->next_;
+    }
+
+    new_node_->next_ == nullptr;
+  }
+
+  return *this;
+}
 
 // Move assignment operator
 template <typename ElementType>
@@ -82,6 +116,7 @@ ElementType LinkedList<ElementType>::back() const {
   if (head_ == nullptr) {
     throw std::invalid_argument("Empty list");
   }
+
   Node *curr_ = head_;
   while (curr_->next_ != nullptr) {
     curr_ = curr_->next_;
@@ -94,6 +129,7 @@ void LinkedList<ElementType>::pop_front() {
   if (head_ == nullptr) {
     throw std::invalid_argument("Empty list");
   }
+
   Node *curr_ = head_;
   head_ = head_->next_;
   delete curr_;
@@ -104,16 +140,20 @@ void LinkedList<ElementType>::pop_back() {
   if (head_ == nullptr) {
     throw std::invalid_argument("Empty list");
   }
+
   if (head_->next_ == nullptr) {
     delete head_;
     head_ = nullptr;
     return;
   }
+
   Node *curr_ = head_;
   Node *second_to_last_ = head_->next_;
+
   while (second_to_last_->next_ != nullptr) {
     curr_ = curr_->next_;
   }
+
   delete second_to_last_;
   curr_->next_ = nullptr;
 }
@@ -122,6 +162,7 @@ template <typename ElementType>
 size_t LinkedList<ElementType>::size() const {
   size_t count = 0;
   Node *curr_ = head_;
+
   while (curr_ != nullptr) {
     count++;
     curr_ = curr_->next_;
@@ -137,12 +178,13 @@ bool LinkedList<ElementType>::empty() const {
 template <typename ElementType>
 void LinkedList<ElementType>::clear() {
   Node *curr_ = head_;
+
   while (curr_ != nullptr) {
     Node *next = curr_->next_;
     delete curr_;
     curr_ = next;
   }
-  head_ == nullptr;
+  head_ = nullptr;
 }
 
 template <typename ElementType>
@@ -154,29 +196,48 @@ void LinkedList<ElementType>::RemoveNth(size_t n) {
   if (head_ == nullptr) {
     throw std::invalid_argument("Empty list");
   }
+
   Node *curr_ = head_;
+
   if (n == 0) {
     head_ = curr_->next_;
     delete curr_;
     return;
   }
 
+  if (n >= size()) {
+    throw std::invalid_argument("N out of bounds");
+  }
+
   for (size_t i = 0; i < n - 1; i++) {
-    if (!(curr_ == nullptr && curr_->next_ == nullptr)) { // check if n is out of bounds
-      curr_ = curr_->next_; // node prior to one to be deleted
-    } else {
-      // return;
-      throw std::invalid_argument("Node to be removed is out of bounds");
-    }
+    curr_ = curr_->next_; // node prior to one to be deleted
   }
 
   Node *after_ = curr_->next_->next_; // node after the one to be removed
-  delete curr_->next_;
+  delete curr_->next_; // curr_->next_ is the node to be deleted
   curr_->next_ = after_;
 }
 
 template <typename ElementType>
-void LinkedList<ElementType>::RemoveOdd() {}
+void LinkedList<ElementType>::RemoveOdd() {
+  if (head_ == nullptr) {
+    throw std::invalid_argument("Empty list");
+  }
+
+  Node *even_ = head_;
+  Node *odd_ = head_->next_;
+
+  while (even_ != nullptr && odd_ != nullptr) {
+    even_->next_ = odd_->next_;
+    delete odd_;
+
+    even_ = even_->next_;
+
+    if (even_ != nullptr) {
+      odd_ = even_->next_;
+    }
+  }
+}
 
 template <typename ElementType>
 bool LinkedList<ElementType>::operator==(
