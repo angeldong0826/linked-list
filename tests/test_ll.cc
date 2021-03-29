@@ -311,3 +311,134 @@ TEST_CASE("Pop Front and Back") {
     REQUIRE(list.back() == 10000);
   }
 }
+
+TEST_CASE("Remove Nth") {
+  LinkedList<int> list;
+
+  REQUIRE(list.size() == 0);
+  REQUIRE(list.empty());
+
+  SECTION("Empty list") {
+
+  }
+
+  SECTION("N is first element") {
+    list.push_back(45);
+    list.push_front(37);
+
+    REQUIRE(list.size() == 2);
+    REQUIRE(list.front() == 37);
+
+    list.RemoveNth(0);
+
+    REQUIRE(list.size() == 1);
+    REQUIRE(list.front() == 45);
+    REQUIRE(list.back() == 45);
+  }
+
+  SECTION("N is last element") {
+    list.push_back(45);
+    list.push_front(37);
+
+    REQUIRE(list.size() == 2);
+    REQUIRE(list.back() == 45);
+
+    list.RemoveNth(1);
+
+    REQUIRE(list.size() == 1);
+    REQUIRE(list.front() == 37);
+    REQUIRE(list.back() == 37);
+  }
+
+  SECTION("N is an element between the head and tail of list") {
+    list.push_back(45);
+    list.push_front(37);
+    list.push_front(896);
+
+    REQUIRE(list.size() == 3);
+    REQUIRE(list.front() == 896);
+    REQUIRE(list.back() == 45);
+
+    list.RemoveNth(1);
+
+    REQUIRE(list.size() == 2);
+    REQUIRE(list.front() == 896);
+    REQUIRE(list.back() == 45);
+  }
+
+  SECTION("Remove first and last") {
+    list.push_back(45);
+    list.push_front(37);
+    list.push_front(896);
+
+    REQUIRE(list.size() == 3);
+    REQUIRE(list.front() == 896);
+    REQUIRE(list.back() == 45);
+
+    list.RemoveNth(0);
+    REQUIRE(list.size() == 2);
+
+    list.RemoveNth(1);
+    REQUIRE(list.size() == 1);
+    REQUIRE(list.front() == 37);
+    REQUIRE(list.back() == 37);
+  }
+
+  SECTION("Remove first and one within range") {
+    list.push_back(45);
+    list.push_front(37);
+    list.push_front(896);
+    list.push_back(345678);
+
+    REQUIRE(list.size() == 4);
+    REQUIRE(list.front() == 896);
+    REQUIRE(list.back() == 345678);
+
+    list.RemoveNth(0);
+    list.RemoveNth(2);
+
+    REQUIRE(list.size() == 2);
+    REQUIRE(list.front() == 37);
+    REQUIRE(list.back() == 45);
+  }
+
+  SECTION("Remove one within range and last") {
+    list.push_back(45);
+    list.push_front(37);
+    list.push_front(896);
+    list.push_back(345678);
+
+    REQUIRE(list.size() == 4);
+    REQUIRE(list.front() == 896);
+    REQUIRE(list.back() == 345678);
+
+    list.RemoveNth(1);
+    list.RemoveNth(2);
+
+    REQUIRE(list.size() == 2);
+    REQUIRE(list.front() == 896);
+    REQUIRE(list.back() == 45);
+  }
+
+  SECTION("N out of range") {
+
+  }
+
+  SECTION("Order update after removal") {
+    list.push_back(459);
+    list.push_front(37);
+    list.push_front(8969);
+    list.push_back(345678);
+
+    REQUIRE(list.size() == 4);
+    REQUIRE(list.front() == 8969);
+    REQUIRE(list.back() == 345678);
+
+    list.RemoveNth(1);
+    list.RemoveNth(2);
+
+    REQUIRE(list.size() == 2);
+    REQUIRE(list.front() == 8969);
+    REQUIRE(list.back() == 459);
+  }
+}

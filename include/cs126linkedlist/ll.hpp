@@ -60,12 +60,12 @@ void LinkedList<ElementType>::push_back(const ElementType& value) {
   if (head_ == nullptr) {
     head_ = new_node_;
   } else {
-    Node* curr = head_;
+    Node* curr_ = head_;
 
-    while (curr->next_ != nullptr) {
-      curr = curr->next_;
+    while (curr_->next_ != nullptr) {
+      curr_ = curr_->next_;
     }
-    curr->next_ = new_node_;
+    curr_->next_ = new_node_;
   }
 }
 
@@ -82,11 +82,11 @@ ElementType LinkedList<ElementType>::back() const {
   if (head_ == nullptr) {
     throw std::invalid_argument("Empty list");
   }
-  Node *curr = head_;
-  while (curr->next_ != nullptr) {
-    curr = curr->next_;
+  Node *curr_ = head_;
+  while (curr_->next_ != nullptr) {
+    curr_ = curr_->next_;
   }
-  return curr->element_;
+  return curr_->element_;
 }
 
 template <typename ElementType>
@@ -94,9 +94,9 @@ void LinkedList<ElementType>::pop_front() {
   if (head_ == nullptr) {
     throw std::invalid_argument("Empty list");
   }
-  Node *curr = head_;
+  Node *curr_ = head_;
   head_ = head_->next_;
-  delete curr;
+  delete curr_;
 }
 
 template <typename ElementType>
@@ -109,22 +109,22 @@ void LinkedList<ElementType>::pop_back() {
     head_ = nullptr;
     return;
   }
-  Node *curr = head_;
+  Node *curr_ = head_;
   Node *second_to_last_ = head_->next_;
   while (second_to_last_->next_ != nullptr) {
-    curr = curr->next_;
+    curr_ = curr_->next_;
   }
   delete second_to_last_;
-  curr->next_ = nullptr;
+  curr_->next_ = nullptr;
 }
 
 template <typename ElementType>
 size_t LinkedList<ElementType>::size() const {
   size_t count = 0;
-  Node *curr = head_;
-  while (curr != nullptr) {
+  Node *curr_ = head_;
+  while (curr_ != nullptr) {
     count++;
-    curr = curr->next_;
+    curr_ = curr_->next_;
   }
   return count;
 }
@@ -136,11 +136,11 @@ bool LinkedList<ElementType>::empty() const {
 
 template <typename ElementType>
 void LinkedList<ElementType>::clear() {
-  Node *curr = head_;
-  while (curr != nullptr) {
-    Node *next = curr->next_;
-    delete curr;
-    curr = next;
+  Node *curr_ = head_;
+  while (curr_ != nullptr) {
+    Node *next = curr_->next_;
+    delete curr_;
+    curr_ = next;
   }
   head_ == nullptr;
 }
@@ -150,7 +150,30 @@ std::ostream& operator<<(std::ostream& os,
                          const LinkedList<ElementType>& list) {}
 
 template <typename ElementType>
-void LinkedList<ElementType>::RemoveNth(size_t n) {}
+void LinkedList<ElementType>::RemoveNth(size_t n) {
+  if (head_ == nullptr) {
+    throw std::invalid_argument("Empty list");
+  }
+  Node *curr_ = head_;
+  if (n == 0) {
+    head_ = curr_->next_;
+    delete curr_;
+    return;
+  }
+
+  for (size_t i = 0; i < n - 1; i++) {
+    if (!(curr_ == nullptr && curr_->next_ == nullptr)) { // check if n is out of bounds
+      curr_ = curr_->next_; // node prior to one to be deleted
+    } else {
+      // return;
+      throw std::invalid_argument("Node to be removed is out of bounds");
+    }
+  }
+
+  Node *after_ = curr_->next_->next_; // node after the one to be removed
+  delete curr_->next_;
+  curr_->next_ = after_;
+}
 
 template <typename ElementType>
 void LinkedList<ElementType>::RemoveOdd() {}
