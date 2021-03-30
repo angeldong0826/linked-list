@@ -14,7 +14,12 @@ LinkedList<ElementType>::LinkedList() {
 }
 
 template <typename ElementType>
-LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {}
+LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {
+  head_ = nullptr;
+  for (size_t idx = 0; idx < values.size(); ++idx) {
+    push_back(values[idx]);
+  }
+}
 
 // Copy constructor
 template <typename ElementType>
@@ -43,13 +48,13 @@ LinkedList<ElementType>::LinkedList(LinkedList<ElementType>&& source) noexcept {
 // Destructor
 template <typename ElementType>
 LinkedList<ElementType>::~LinkedList() {
-//  Node *curr_ = head_;
-//
-//  while (curr_ != nullptr) {
-//    Node * to_delete_ = curr_;
-//    curr_ = curr_->next_;
-//    delete to_delete_;
-//  }
+  Node *curr_ = head_;
+
+  while (curr_ != nullptr) {
+    Node * to_delete_ = curr_;
+    curr_ = curr_->next_;
+    delete to_delete_;
+  }
 }
 
 // Copy assignment operator
@@ -188,7 +193,9 @@ void LinkedList<ElementType>::clear() {
 
 template <typename ElementType>
 std::ostream& operator<<(std::ostream& os,
-                         const LinkedList<ElementType>& list) {}
+                         const LinkedList<ElementType>& list) {
+
+}
 
 template <typename ElementType>
 void LinkedList<ElementType>::RemoveNth(size_t n) {

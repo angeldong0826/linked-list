@@ -11,6 +11,31 @@ using cs126linkedlist::LinkedList;
 // `https://github.com/catchorg/Catch2/tree/master/docs`
 // in the "Test Cases and Sections" file.
 
+TEST_CASE("Initialize from vector") {
+  SECTION("Empty vector") {
+    std::vector<int> vect;
+    LinkedList<int> list(vect);
+
+    REQUIRE(list.size() == 0);
+  }
+
+  SECTION("One element in vector") {
+    LinkedList<int> list({-89});
+
+    REQUIRE(list.size() == 1);
+    REQUIRE(list.front() == -89);
+    REQUIRE(list.back() == -89);
+  }
+
+  SECTION("Multiple elements in vector") {
+    LinkedList<int> list({-89, 4567, 2389, 0, 1});
+
+    REQUIRE(list.size() == 5);
+    REQUIRE(list.front() == -89);
+    REQUIRE(list.back() == 1);
+  }
+}
+
 TEST_CASE("Copy Constructor") {
   LinkedList<int> list;
 
@@ -618,7 +643,6 @@ TEST_CASE("Equality Operator") {
 
     REQUIRE_FALSE(list == list_two_);
   }
-
 
   SECTION("Equal Lists one element") {
     list.push_back(2);
