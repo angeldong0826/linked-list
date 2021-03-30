@@ -287,6 +287,15 @@ TEST_CASE("Clear") {
   }
 
   SECTION("Multiple elements in list") {
+    list.push_front(-1);
+    list.push_front(10000);
+    list.push_back(89);
+    list.push_back(689);
+
+    list.clear();
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
   }
 }
 
@@ -821,4 +830,24 @@ TEST_CASE("Iterator") {
 
 TEST_CASE("Const Iterator") {
 
+}
+
+TEST_CASE("Print operator") {
+  LinkedList<int> list;
+
+  SECTION("One element") {
+    list.push_back(27);
+
+    std::cout << list <<  std::endl;
+    REQUIRE("27");
+  }
+
+  SECTION("Multiple elements") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+
+    std::cout << list << std::endl;
+    REQUIRE("27, 2, -20");
+  }
 }

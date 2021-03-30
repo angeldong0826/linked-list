@@ -24,19 +24,19 @@ LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {
 // Copy constructor
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(const LinkedList<ElementType>& source) {
-//  if (head_ == nullptr) {
-//    throw std::invalid_argument("Empty List");
-//  }
-//
-//  if (source.head_ == nullptr) {
-//    throw std::invalid_argument("Empty Input List");
-//  }
-//
-//  Node *curr_ = source.head_;
-//  while (curr_ != nullptr) {
-//    push_back(curr_);
-//    curr_ = curr_->next_;
-//  }
+  if (head_ == nullptr) {
+    throw std::invalid_argument("Empty List");
+  }
+
+  if (source.head_ == nullptr) {
+    throw std::invalid_argument("Empty Input List");
+  }
+
+  Node *curr_ = source.head_;
+  while (curr_ != nullptr) {
+    push_back(curr_);
+    curr_ = curr_->next_;
+  }
 }
 
 // Move constructor
@@ -48,37 +48,31 @@ LinkedList<ElementType>::LinkedList(LinkedList<ElementType>&& source) noexcept {
 // Destructor
 template <typename ElementType>
 LinkedList<ElementType>::~LinkedList() {
-  Node *curr_ = head_;
-
-  while (curr_ != nullptr) {
-    Node * to_delete_ = curr_;
-    curr_ = curr_->next_;
-    delete to_delete_;
-  }
+  clear();
+  delete head_;
 }
 
 // Copy assignment operator
 template <typename ElementType>
-LinkedList<ElementType>& LinkedList<ElementType>::operator = (
+LinkedList<ElementType>& LinkedList<ElementType>::operator=(
     const LinkedList<ElementType>& source) {
-//  if (head_ == nullptr) {
-//    throw std::invalid_argument("Empty List");
-//  }
-//
-//  if (source.head_ == nullptr) {
-//    throw std::invalid_argument("Empty Input List");
-//  }
-//
-//  clear();
-//  push_back(source);
-//  return *this;
+  if (head_ == nullptr) {
+    throw std::invalid_argument("Empty List");
+  }
+
+  if (source.head_ == nullptr) {
+    throw std::invalid_argument("Empty Input List");
+  }
+
+  clear();
+  push_back(*source);
+  return *this;
 }
 
 // Move assignment operator
 template <typename ElementType>
 LinkedList<ElementType>& LinkedList<ElementType>::operator=(
     LinkedList<ElementType>&& source) noexcept {
-
 }
 
 template <typename ElementType>
@@ -194,7 +188,18 @@ void LinkedList<ElementType>::clear() {
 template <typename ElementType>
 std::ostream& operator<<(std::ostream& os,
                          const LinkedList<ElementType>& list) {
+  if (list.empty()) {
+    throw std::invalid_argument("Empty list");
+  }
 
+  for (const ElementType& element : list) {
+    if (element == list.back()) {
+      os << element;
+    } else {
+      os << element << ", ";
+    }
+  }
+  return os;
 }
 
 template <typename ElementType>
