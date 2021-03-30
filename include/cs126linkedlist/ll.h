@@ -13,10 +13,8 @@ namespace cs126linkedlist {
 template <typename ElementType>
 class LinkedList {
 
-  // Declare any struct, class, or anything you need to use here, as long as it
-  // is private.
+ private:
 
-  // Here is a struct to get you started. You'll probably need more than this.
   struct Node {
     ElementType element_;
     Node *next_;

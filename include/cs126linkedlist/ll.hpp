@@ -19,19 +19,19 @@ LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {}
 // Copy constructor
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(const LinkedList<ElementType>& source) {
-  if (head_ == nullptr) {
-    throw std::invalid_argument("Empty List");
-  }
-
-  if (source.head_ == nullptr) {
-    throw std::invalid_argument("Empty Input List");
-  }
-
-  Node *curr_ = source.head_;
-  while (curr_ != nullptr) {
-    push_back(curr_);
-    curr_ = curr_->next_;
-  }
+//  if (head_ == nullptr) {
+//    throw std::invalid_argument("Empty List");
+//  }
+//
+//  if (source.head_ == nullptr) {
+//    throw std::invalid_argument("Empty Input List");
+//  }
+//
+//  Node *curr_ = source.head_;
+//  while (curr_ != nullptr) {
+//    push_back(curr_);
+//    curr_ = curr_->next_;
+//  }
 }
 
 // Move constructor
@@ -43,36 +43,37 @@ LinkedList<ElementType>::LinkedList(LinkedList<ElementType>&& source) noexcept {
 // Destructor
 template <typename ElementType>
 LinkedList<ElementType>::~LinkedList() {
-  Node *curr_ = head_;
-
-  while (curr_ != nullptr) {
-    Node * to_delete_ = curr_;
-    curr_ = curr_->next_;
-    delete to_delete_;
-  }
+//  Node *curr_ = head_;
+//
+//  while (curr_ != nullptr) {
+//    Node * to_delete_ = curr_;
+//    curr_ = curr_->next_;
+//    delete to_delete_;
+//  }
 }
 
 // Copy assignment operator
 template <typename ElementType>
 LinkedList<ElementType>& LinkedList<ElementType>::operator = (
     const LinkedList<ElementType>& source) {
-  if (head_ == nullptr) {
-    throw std::invalid_argument("Empty List");
-  }
-
-  if (source.head_ == nullptr) {
-    throw std::invalid_argument("Empty Input List");
-  }
-
-  clear();
-  push_back(source);
-  return *this;
+//  if (head_ == nullptr) {
+//    throw std::invalid_argument("Empty List");
+//  }
+//
+//  if (source.head_ == nullptr) {
+//    throw std::invalid_argument("Empty Input List");
+//  }
+//
+//  clear();
+//  push_back(source);
+//  return *this;
 }
 
 // Move assignment operator
 template <typename ElementType>
 LinkedList<ElementType>& LinkedList<ElementType>::operator=(
     LinkedList<ElementType>&& source) noexcept {
+
 }
 
 template <typename ElementType>
@@ -207,7 +208,7 @@ void LinkedList<ElementType>::RemoveNth(size_t n) {
     throw std::invalid_argument("N out of bounds");
   }
 
-  for (size_t i = 0; i < n - 1; i++) {
+  for (size_t i = 0; i < n - 1; ++i) {
     curr_ = curr_->next_; // node prior to one to be deleted
   }
 
@@ -288,15 +289,23 @@ bool LinkedList<ElementType>::operator!=(
 template <typename ElementType>
 typename LinkedList<ElementType>::iterator& LinkedList<ElementType>::iterator::
 operator++() {
-
+  current_ = current_->next_;
+  return *this;
 }
 
 template <typename ElementType>
-ElementType& LinkedList<ElementType>::iterator::operator*() const {}
+ElementType& LinkedList<ElementType>::iterator::operator*() const {
+  return current_->element_;
+}
 
 template <typename ElementType>
 bool LinkedList<ElementType>::iterator::operator!=(
-    const typename LinkedList<ElementType>::iterator& other) const {}
+    const typename LinkedList<ElementType>::iterator& other) const {
+  if (other.current_ == current_) {
+    return false;
+  }
+  return true;
+}
 
 template <typename ElementType>
 typename LinkedList<ElementType>::iterator LinkedList<ElementType>::begin() {
@@ -310,21 +319,35 @@ typename LinkedList<ElementType>::iterator LinkedList<ElementType>::end() {
 
 template <typename ElementType>
 typename LinkedList<ElementType>::const_iterator&
-LinkedList<ElementType>::const_iterator::operator++() {}
+LinkedList<ElementType>::const_iterator::operator++() {
+  current_ = current_->next_;
+  return *this;
+}
 
 template <typename ElementType>
-const ElementType& LinkedList<ElementType>::const_iterator::operator*() const {}
+const ElementType& LinkedList<ElementType>::const_iterator::operator*() const {
+  return current_->element_;
+}
 
 template <typename ElementType>
 bool LinkedList<ElementType>::const_iterator::operator!=(
-    const typename LinkedList<ElementType>::const_iterator& other) const {}
+    const typename LinkedList<ElementType>::const_iterator& other) const {
+  if (other.current_ == current_) {
+    return false;
+  }
+  return true;
+}
 
 template <typename ElementType>
 typename LinkedList<ElementType>::const_iterator
-LinkedList<ElementType>::begin() const {}
+LinkedList<ElementType>::begin() const {
+  return head_;
+}
 
 template <typename ElementType>
 typename LinkedList<ElementType>::const_iterator LinkedList<ElementType>::end()
-    const {}
+    const {
+  return nullptr;
+}
 
 }  // namespace cs126linkedlist

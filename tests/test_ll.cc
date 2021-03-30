@@ -647,3 +647,7 @@ TEST_CASE("Inequality Operator") {
 
   }
 }
+
+TEST_CASE("Iterator") {
+
+}
