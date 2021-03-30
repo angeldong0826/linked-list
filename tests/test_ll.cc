@@ -690,7 +690,7 @@ TEST_CASE("Remove odd",
   }
 }
 
-TEST_CASE("Equality Operator", "[constructor][push_back][size][empty][==]") {
+TEST_CASE("Equality Operator", "[constructor][push_back][size][empty]") {
   LinkedList<int> list;
   LinkedList<int> list_two_;
 
@@ -758,7 +758,7 @@ TEST_CASE("Equality Operator", "[constructor][push_back][size][empty][==]") {
   }
 }
 
-TEST_CASE("Inequality Operator", "[constructor][push_back][size][empty][!=]") {
+TEST_CASE("Inequality Operator", "[constructor][push_back][size][empty]") {
   LinkedList<int> list;
   LinkedList<int> list_two_;
 
@@ -826,7 +826,7 @@ TEST_CASE("Inequality Operator", "[constructor][push_back][size][empty][!=]") {
   }
 }
 
-TEST_CASE("Print operator", "[constructor][push_back][<<][ostream]") {
+TEST_CASE("Print operator", "[constructor][push_back][ostream]") {
   LinkedList<int> list;
 
   SECTION("Empty list") {
@@ -915,7 +915,7 @@ TEST_CASE("Print operator", "[constructor][push_back][<<][ostream]") {
 }
 
 TEST_CASE("Iterator",
-          "[constructor][push_back][iterator][begin][end][++][!=][*]") {
+          "[constructor][push_back][iterator][begin][end]") {
   LinkedList<int> list;
   LinkedList<int>::iterator iterator;
 
@@ -1003,7 +1003,7 @@ TEST_CASE("Iterator",
 }
 
 TEST_CASE("Const Iterator",
-          "[constructor][push_back][const_iterator][begin][end][++][!=][*]") {
+          "[constructor][push_back][const_iterator][begin][end]") {
   const LinkedList<int> list({37, 3, -30});
   LinkedList<int>::const_iterator iterator;
 
@@ -1078,5 +1078,157 @@ TEST_CASE("Const Iterator",
 
     REQUIRE_FALSE(*iterator == 3);
     REQUIRE(*iterator == 37);
+  }
+}
+
+TEST_CASE("Different element types",
+          "[constructor][push_front][push_back][size][empty][front][back]["
+          "RemoveOdd][RemoveNth][pop_front][pop_back][clear]") {
+  SECTION("string") {
+    LinkedList<std::string> list;
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
+
+    list.push_back("hi");
+    list.push_front("bye");
+    list.push_front("lol");
+    list.push_back("yikes");
+
+    REQUIRE(list.size() == 4);
+    REQUIRE(list.front() == "lol");
+    REQUIRE(list.back() == "yikes");
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 2);
+
+    list.RemoveNth(0);
+
+    REQUIRE(list.front() == "hi");
+
+    list.push_back("hi again");
+
+    REQUIRE(list.size() == 2);
+
+    list.pop_back();
+
+    REQUIRE(list.size() == 1);
+
+    list.clear();
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
+  }
+
+  SECTION("char") {
+    LinkedList<char> list;
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
+
+    list.push_back('a');
+    list.push_front('b');
+    list.push_front('c');
+    list.push_back('d');
+
+    REQUIRE(list.size() == 4);
+    REQUIRE(list.front() == 'c');
+    REQUIRE(list.back() == 'd');
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 2);
+
+    list.RemoveNth(0);
+
+    REQUIRE(list.front() == 'a');
+
+    list.push_back('e');
+
+    REQUIRE(list.size() == 2);
+
+    list.pop_back();
+
+    REQUIRE(list.size() == 1);
+
+    list.clear();
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
+  }
+
+  SECTION("double") {
+    LinkedList<double> list;
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
+
+    list.push_back(1.0);
+    list.push_front(2.0);
+    list.push_front(3.0);
+    list.push_back(4.0);
+
+    REQUIRE(list.size() == 4);
+    REQUIRE(list.front() == 3.0);
+    REQUIRE(list.back() == 4.0);
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 2);
+
+    list.RemoveNth(0);
+
+    REQUIRE(list.front() == 1.0);
+
+    list.push_back(5.0);
+
+    REQUIRE(list.size() == 2);
+
+    list.pop_back();
+
+    REQUIRE(list.size() == 1);
+
+    list.clear();
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
+  }
+
+  SECTION("size_t") {
+    LinkedList<char> list;
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
+
+    list.push_back(1);
+    list.push_front(2);
+    list.push_front(3);
+    list.push_back(4);
+
+    REQUIRE(list.size() == 4);
+    REQUIRE(list.front() == 3);
+    REQUIRE(list.back() == 4);
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 2);
+
+    list.RemoveNth(0);
+
+    REQUIRE(list.front() == 1);
+
+    list.push_back(5);
+
+    REQUIRE(list.size() == 2);
+
+    list.pop_back();
+
+    REQUIRE(list.size() == 1);
+
+    list.clear();
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
   }
 }
