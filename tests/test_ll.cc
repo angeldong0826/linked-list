@@ -5,7 +5,6 @@
 #include <catch2/catch.hpp>
 #include <cs126linkedlist/ll.h>
 
-
 using cs126linkedlist::LinkedList;
 
 // Read more on SECTIONs here:
@@ -164,6 +163,12 @@ TEST_CASE("Front") {
   REQUIRE(list.empty());
 
   SECTION("No element in list") {
+    try {
+      list.front();
+      FAIL();
+    }
+    catch(std::invalid_argument& error){
+    };
   }
 
   SECTION("One element in list") {
@@ -602,8 +607,18 @@ TEST_CASE("Equality Operator") {
 
   SECTION("One empty list") {
     list_two_.push_back(2);
+
     REQUIRE_FALSE(list == list_two_);
   }
+
+  SECTION("Different list sizes") {
+    list.push_back(2);
+    list_two_.push_back(45);
+    list_two_.push_back(2);
+
+    REQUIRE_FALSE(list == list_two_);
+  }
+
 
   SECTION("Equal Lists one element") {
     list.push_back(2);
@@ -613,15 +628,37 @@ TEST_CASE("Equality Operator") {
   }
 
   SECTION("Equal lists multiple elements") {
+    list.push_back(2);
+    list.push_back(-20);
+    list_two_.push_back(2);
+    list_two_.push_back(-20);
 
+    REQUIRE(list == list_two_);
   }
 
-  SECTION("Lists not equal with one element") {
+  SECTION("Unequal lists with one element") {
+    list.push_back(-20);
+    list_two_.push_back(2);
 
+    REQUIRE_FALSE(list == list_two_);
   }
 
-  SECTION("Lists not equal with multiple elements") {
+  SECTION("Unequal lists with multiple elements") {
+    list.push_back(4);
+    list.push_back(-20);
+    list_two_.push_back(2);
+    list_two_.push_back(20);
 
+    REQUIRE_FALSE(list == list_two_);
+  }
+
+  SECTION("Unequal lists with some same elements at indexes") {
+    list.push_back(2);
+    list.push_back(-20);
+    list_two_.push_back(2);
+    list_two_.push_back(20);
+
+    REQUIRE_FALSE(list == list_two_);
   }
 }
 
@@ -635,19 +672,70 @@ TEST_CASE("Inequality Operator") {
   REQUIRE(list_two_.size() == 0);
   REQUIRE(list_two_.empty());
 
-  SECTION("Equal Lists") {
+  SECTION("Empty Lists") {
+    REQUIRE_FALSE(list != list_two_);
+  }
 
+  SECTION("One empty list") {
+    list_two_.push_back(2);
+
+    REQUIRE(list != list_two_);
+  }
+
+  SECTION("Different list sizes") {
+    list.push_back(2);
+    list_two_.push_back(45);
+    list_two_.push_back(2);
+
+    REQUIRE(list != list_two_);
+  }
+
+  SECTION("Equal lists with one element") {
+    list.push_back(2);
+    list_two_.push_back(2);
+
+    REQUIRE_FALSE(list != list_two_);
+  }
+
+  SECTION("Equal lists with multiple elements") {
+    list.push_back(2);
+    list.push_back(-20);
+    list_two_.push_back(2);
+    list_two_.push_back(-20);
+
+    REQUIRE_FALSE(list != list_two_);
   }
 
   SECTION("Inequality with one element in lists") {
+    list.push_back(2);
+    list_two_.push_back(-2);
 
+    REQUIRE(list != list_two_);
   }
 
   SECTION("Inequality with multiple elements in lists") {
+    list.push_back(27);
+    list.push_back(-20);
+    list_two_.push_back(2);
+    list_two_.push_back(20);
 
+    REQUIRE(list != list_two_);
+  }
+
+  SECTION("Inequality with some equality at indexes") {
+    list.push_back(27);
+    list.push_back(-20);
+    list_two_.push_back(27);
+    list_two_.push_back(20);
+
+    REQUIRE(list != list_two_);
   }
 }
 
 TEST_CASE("Iterator") {
+
+}
+
+TEST_CASE("Const Iterator") {
 
 }

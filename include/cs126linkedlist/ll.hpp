@@ -244,21 +244,23 @@ bool LinkedList<ElementType>::operator==(
 
   if (head_ == nullptr && rhs.head_ == nullptr) {
     return true;
+  } else if (head_ == nullptr || rhs.head_ == nullptr) {
+    return false;
   }
 
-  Node *curr_ = head_;
-  Node *temp_ = rhs.head_;
+  if (size() != rhs.size()) {
+    return false;
+  }
 
-  while (curr_ != nullptr && temp_ != nullptr) {
-    if (curr_ != temp_) {
+  Node * new_head_ = head_;
+  Node *new_rhs_ = rhs.head_;
+
+  while (new_head_ != nullptr && new_rhs_ != nullptr) {
+    if (new_head_->element_ != new_rhs_->element_) {
       return false;
     }
-    curr_ = curr_->next_;
-    temp_ = temp_->next_;
-  }
-
-  if (curr_ || temp_) {
-    return false;
+    new_head_ = new_head_->next_;
+    new_rhs_ = new_rhs_->next_;
   }
 
   return true;
@@ -267,23 +269,29 @@ bool LinkedList<ElementType>::operator==(
 template <typename ElementType>
 bool LinkedList<ElementType>::operator!=(
     const LinkedList<ElementType>& rhs) const {
+
   if (head_ == nullptr && rhs.head_ == nullptr) {
     return false;
   } else if (head_ == nullptr || rhs.head_ == nullptr) {
     return true;
   }
 
-  Node *curr_ = head_;
-  Node *temp_ = rhs.head_;
-
-  while (curr_ != nullptr) {
-    if (curr_ == temp_) {
-      return false;
-    }
-    curr_ = curr_->next_;
-    temp_ = temp_->next_;
+  if (size() != rhs.size()) {
+    return true;
   }
-  return true;
+
+  Node * new_head_ = head_;
+  Node *new_rhs_ = rhs.head_;
+
+  while (new_head_ != nullptr && new_rhs_ != nullptr) {
+    if (new_head_->element_ != new_rhs_->element_) {
+      return true;
+    }
+    new_head_ = new_head_->next_;
+    new_rhs_ = new_rhs_->next_;
+  }
+
+  return false;
 }
 
 template <typename ElementType>
