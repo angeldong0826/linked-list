@@ -217,6 +217,12 @@ TEST_CASE("Back") {
   REQUIRE(list.empty());
 
   SECTION("No element in list") {
+    try {
+      list.back();
+      FAIL();
+    }
+    catch(std::invalid_argument& error){
+    };
   }
 
   SECTION("One element in list") {
@@ -266,6 +272,10 @@ TEST_CASE("Clear") {
   REQUIRE(list.empty());
 
   SECTION("No element in list") {
+    list.clear();
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
   }
 
   SECTION("One element in list") {
@@ -287,6 +297,12 @@ TEST_CASE("Pop Front") {
   REQUIRE(list.empty());
 
   SECTION("No element in list") {
+    try {
+      list.pop_front();
+      FAIL();
+    }
+    catch(std::invalid_argument& error){
+    };
   }
 
   SECTION("One element in list") {
@@ -321,7 +337,14 @@ TEST_CASE("Pop Back") {
   REQUIRE(list.size() == 0);
   REQUIRE(list.empty());
 
-  SECTION("No element in list") {}
+  SECTION("No element in list") {
+    try {
+      list.pop_back();
+      FAIL();
+    }
+    catch(std::invalid_argument& error){
+    };
+  }
 
   SECTION("One element in list") {
     list.push_back(10);
@@ -388,7 +411,12 @@ TEST_CASE("Remove Nth") {
   REQUIRE(list.empty());
 
   SECTION("Empty list") {
-
+    try {
+      list.RemoveNth(0);
+      FAIL();
+    }
+    catch(std::invalid_argument& error){
+    };
   }
 
   SECTION("N is first element") {
@@ -492,7 +520,17 @@ TEST_CASE("Remove Nth") {
   }
 
   SECTION("N out of range") {
+    list.push_back(45);
+    list.push_front(37);
+    list.push_front(896);
+    list.push_back(345678);
 
+    try {
+      list.RemoveNth(4);
+      FAIL();
+    }
+    catch(std::invalid_argument& error){
+    };
   }
 
   SECTION("Order update after removal") {
@@ -538,7 +576,28 @@ TEST_CASE("Remove odd") {
   REQUIRE(list.size() == 0);
   REQUIRE(list.empty());
 
-  SECTION("Minimum two elements") {
+  SECTION("Empty List") {
+    try {
+      list.RemoveOdd();
+      FAIL();
+    }
+    catch(std::invalid_argument& error){
+    };
+  }
+
+  SECTION("List with no odd index") {
+    list.push_front(1);
+
+    REQUIRE(list.size() == 1);
+
+    list.RemoveOdd();
+
+    REQUIRE(list.size() == 1);
+    REQUIRE(list.front() == 1);
+    REQUIRE(list.back() == 1);
+  }
+
+  SECTION("One odd index") {
     list.push_front(1);
     list.push_back(2);
 
@@ -549,7 +608,7 @@ TEST_CASE("Remove odd") {
     REQUIRE(list.back() == 1);
   }
 
-  SECTION("Four elements") {
+  SECTION("Multiple odd indexes") {
     list.push_back(1);
     list.push_back(2);
     list.push_back(3);
