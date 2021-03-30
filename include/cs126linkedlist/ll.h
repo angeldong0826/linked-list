@@ -111,8 +111,6 @@ class LinkedList {
 template<typename ElementType>
 std::ostream& operator<<(std::ostream& os, const LinkedList<ElementType>& list);
 
-
-
 }  // namespace cs126linkedlist
 
 // Needed for template instantiation.

@@ -194,6 +194,9 @@ TEST_CASE("Front") {
     }
     catch(std::invalid_argument& error){
     };
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
   }
 
   SECTION("One element in list") {
@@ -223,6 +226,9 @@ TEST_CASE("Back") {
     }
     catch(std::invalid_argument& error){
     };
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
   }
 
   SECTION("One element in list") {
@@ -312,6 +318,9 @@ TEST_CASE("Pop Front") {
     }
     catch(std::invalid_argument& error){
     };
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
   }
 
   SECTION("One element in list") {
@@ -353,6 +362,9 @@ TEST_CASE("Pop Back") {
     }
     catch(std::invalid_argument& error){
     };
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
   }
 
   SECTION("One element in list") {
@@ -420,12 +432,8 @@ TEST_CASE("Remove Nth") {
   REQUIRE(list.empty());
 
   SECTION("Empty list") {
-    try {
-      list.RemoveNth(0);
-      FAIL();
-    }
-    catch(std::invalid_argument& error){
-    };
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
   }
 
   SECTION("N is first element") {
@@ -534,12 +542,20 @@ TEST_CASE("Remove Nth") {
     list.push_front(896);
     list.push_back(345678);
 
-    try {
-      list.RemoveNth(4);
-      FAIL();
-    }
-    catch(std::invalid_argument& error){
-    };
+    REQUIRE(list.size() == 4);
+    REQUIRE(list.front() == 896);
+    REQUIRE(list.back() == 345678);
+  }
+
+  SECTION("Negative N") {
+    list.push_back(45);
+    list.push_front(37);
+    list.push_front(896);
+    list.push_back(345678);
+
+    REQUIRE(list.size() == 4);
+    REQUIRE(list.front() == 896);
+    REQUIRE(list.back() == 345678);
   }
 
   SECTION("Order update after removal") {
@@ -586,12 +602,8 @@ TEST_CASE("Remove odd") {
   REQUIRE(list.empty());
 
   SECTION("Empty List") {
-    try {
-      list.RemoveOdd();
-      FAIL();
-    }
-    catch(std::invalid_argument& error){
-    };
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
   }
 
   SECTION("List with no odd index") {
@@ -824,22 +836,23 @@ TEST_CASE("Inequality Operator") {
   }
 }
 
-TEST_CASE("Iterator") {
-
-}
-
-TEST_CASE("Const Iterator") {
-
-}
-
 TEST_CASE("Print operator") {
   LinkedList<int> list;
+
+  SECTION("Empty list") {
+    std::stringstream ss;
+    ss << list;
+
+    REQUIRE(ss.str() == "");
+  }
 
   SECTION("One element") {
     list.push_back(27);
 
-    std::cout << list <<  std::endl;
-    REQUIRE("27");
+    std::stringstream ss;
+    ss << list;
+
+    REQUIRE(ss.str() == "27");
   }
 
   SECTION("Multiple elements") {
@@ -847,7 +860,221 @@ TEST_CASE("Print operator") {
     list.push_back(2);
     list.push_back(-20);
 
-    std::cout << list << std::endl;
-    REQUIRE("27, 2, -20");
+    std::stringstream ss;
+    ss << list;
+
+    REQUIRE(ss.str() == "27, 2, -20");
+  }
+
+  SECTION("List with repeating elements") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+    list.push_back(2);
+    list.push_back(-20);
+
+    std::stringstream ss;
+    ss << list;
+
+    REQUIRE(ss.str() == "27, 2, -20, 2, -20");
+  }
+
+  SECTION("Extra comma") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+
+    std::stringstream ss;
+    ss << list;
+
+    REQUIRE_FALSE(ss.str() == "27, 2, -20,");
+  }
+
+  SECTION("Missing comma") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+
+    std::stringstream ss;
+    ss << list;
+
+    REQUIRE_FALSE(ss.str() == "27, 2 -20");
+  }
+
+  SECTION("Extra space") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+
+    std::stringstream ss;
+    ss << list;
+
+    REQUIRE_FALSE(ss.str() == "27, 2,  -20");
+  }
+
+  SECTION("No space") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+
+    std::stringstream ss;
+    ss << list;
+
+    REQUIRE_FALSE(ss.str() == "27,2,-20");
+  }
+}
+
+TEST_CASE("Iterator") {
+  LinkedList<int> list;
+  LinkedList<int>::iterator iterator;
+
+  SECTION("Begin") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+
+    iterator = list.begin();
+
+    REQUIRE(*iterator == 27);
+  }
+
+  ///TODO
+  SECTION("End") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+
+    iterator = list.end();
+  }
+
+  SECTION("Operator++") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+
+    iterator = list.begin();
+    ++iterator;
+
+    REQUIRE(*iterator == 2);
+  }
+
+  SECTION("Incorrect operator++") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+
+    iterator = list.begin();
+    ++iterator;
+    REQUIRE_FALSE(*iterator == -20);
+  }
+
+  SECTION("Operator !=") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+
+    iterator = list.begin();
+    ++iterator;
+    REQUIRE(*iterator != -20);
+  }
+
+  SECTION("Incorrect operator !=") {
+    list.push_back(27);
+    list.push_back(2);
+    list.push_back(-20);
+
+    iterator = list.begin();
+    ++iterator;
+    REQUIRE_FALSE(*iterator != 2);
+  }
+
+  SECTION("Operator *") {
+    list.push_back(27);
+    list.push_back(2);
+
+    iterator = list.begin();
+    REQUIRE(*iterator == 27);
+  }
+
+  SECTION("Incorrect operator *") {
+    list.push_back(27);
+    list.push_back(2);
+
+    iterator = list.begin();
+    REQUIRE_FALSE(*iterator == 2);
+    REQUIRE(*iterator == 27);
+  }
+}
+
+TEST_CASE("Const Iterator") {
+  const LinkedList<int> list({37, 3, -30});
+  LinkedList<int>::const_iterator iterator;
+
+  SECTION("Begin") {
+    iterator = list.begin();
+
+    REQUIRE(*iterator == 37);
+  }
+
+  ///TODO
+  SECTION("End") {
+    const LinkedList<int> list({37, 3, -30});
+    LinkedList<int>::const_iterator iterator;
+
+    iterator = list.end();
+  }
+
+  SECTION("Operator++") {
+    const LinkedList<int> list({37, 3, -30});
+    LinkedList<int>::const_iterator iterator;
+
+    iterator = list.begin();
+    ++iterator;
+
+    REQUIRE(*iterator == 3);
+  }
+
+  SECTION("Incorrect operator++") {
+    const LinkedList<int> list({37, 3, -30});
+    LinkedList<int>::const_iterator iterator;
+
+    iterator = list.begin();
+    ++iterator;
+    REQUIRE_FALSE(*iterator == -30);
+  }
+
+  SECTION("Operator !=") {
+    const LinkedList<int> list({37, 3, -30});
+    LinkedList<int>::const_iterator iterator;
+
+    iterator = list.begin();
+    ++iterator;
+    REQUIRE(*iterator != -30);
+  }
+
+  SECTION("Incorrect operator !=") {
+    const LinkedList<int> list({37, 3, -30});
+    LinkedList<int>::const_iterator iterator;
+
+    iterator = list.begin();
+    ++iterator;
+    REQUIRE_FALSE(*iterator != 3);
+  }
+
+  SECTION("Operator *") {
+    const LinkedList<int> list({37, 3});
+    LinkedList<int>::const_iterator iterator;
+
+    iterator = list.begin();
+    REQUIRE(*iterator == 37);
+  }
+
+  SECTION("Incorrect operator *") {
+    const LinkedList<int> list({37, 3});
+    LinkedList<int>::const_iterator iterator;
+
+    iterator = list.begin();
+    REQUIRE_FALSE(*iterator == 3);
+    REQUIRE(*iterator == 37);
   }
 }

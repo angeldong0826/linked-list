@@ -24,14 +24,6 @@ LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {
 // Copy constructor
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(const LinkedList<ElementType>& source) {
-  if (head_ == nullptr) {
-    throw std::invalid_argument("Empty List");
-  }
-
-  if (source.head_ == nullptr) {
-    throw std::invalid_argument("Empty Input List");
-  }
-
   Node *curr_ = source.head_;
   while (curr_ != nullptr) {
     push_back(curr_);
@@ -56,14 +48,6 @@ LinkedList<ElementType>::~LinkedList() {
 template <typename ElementType>
 LinkedList<ElementType>& LinkedList<ElementType>::operator=(
     const LinkedList<ElementType>& source) {
-  if (head_ == nullptr) {
-    throw std::invalid_argument("Empty List");
-  }
-
-  if (source.head_ == nullptr) {
-    throw std::invalid_argument("Empty Input List");
-  }
-
   clear();
   push_back(*source);
   return *this;
@@ -188,12 +172,11 @@ void LinkedList<ElementType>::clear() {
 template <typename ElementType>
 std::ostream& operator<<(std::ostream& os,
                          const LinkedList<ElementType>& list) {
-  if (list.empty()) {
-    throw std::invalid_argument("Empty list");
-  }
 
+  size_t count = 0;
   for (const ElementType& element : list) {
-    if (element == list.back()) {
+    ++count;
+    if (count == list.size()) {
       os << element;
     } else {
       os << element << ", ";
@@ -204,20 +187,15 @@ std::ostream& operator<<(std::ostream& os,
 
 template <typename ElementType>
 void LinkedList<ElementType>::RemoveNth(size_t n) {
-  if (head_ == nullptr) {
-    throw std::invalid_argument("Empty list");
-  }
-
   Node *curr_ = head_;
 
   if (n == 0) {
-    head_ = curr_->next_;
-    delete curr_;
+    pop_front();
     return;
   }
 
-  if (n >= size()) {
-    throw std::invalid_argument("N out of bounds");
+  if (n >= size() || n < 0) {
+    return;
   }
 
   for (size_t i = 0; i < n - 1; ++i) {
@@ -231,10 +209,6 @@ void LinkedList<ElementType>::RemoveNth(size_t n) {
 
 template <typename ElementType>
 void LinkedList<ElementType>::RemoveOdd() {
-  if (head_ == nullptr) {
-    throw std::invalid_argument("Empty list");
-  }
-
   Node *even_ = head_;
   Node *odd_ = head_->next_;
 
