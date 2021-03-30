@@ -3,18 +3,15 @@
 #ifndef CS126LINKEDLIST_LL_H_
 #define CS126LINKEDLIST_LL_H_
 
-
 #include <iostream>
 #include <utility>
 #include <vector>
-
 
 namespace cs126linkedlist {
 
 // Template for a linked list class.
 template <typename ElementType>
 class LinkedList {
-
 
   // Declare any struct, class, or anything you need to use here, as long as it
   // is private.
@@ -26,7 +23,6 @@ class LinkedList {
   };
 
   Node *head_;
-
 
  // DO NOT CHANGE THE PUBLIC INTERFACE OF THIS CLASS!
  public:

@@ -12,6 +12,25 @@ using cs126linkedlist::LinkedList;
 // `https://github.com/catchorg/Catch2/tree/master/docs`
 // in the "Test Cases and Sections" file.
 
+TEST_CASE("Copy Constructor") {
+  LinkedList<int> list;
+
+  REQUIRE(list.size() == 0);
+  REQUIRE(list.empty());
+
+  SECTION("Empty list") {
+
+  }
+
+  SECTION("List with one element") {
+
+  }
+
+  SECTION("List with multiple elements") {
+
+  }
+}
+
 TEST_CASE("Destructor") {
   LinkedList<int> list;
 
@@ -564,5 +583,67 @@ TEST_CASE("Remove odd") {
     REQUIRE(list.size() == 1);
     REQUIRE(list.front() == 8969);
     REQUIRE(list.back() == 8969);
+  }
+}
+
+TEST_CASE("Equality Operator") {
+  LinkedList<int> list;
+  LinkedList<int> list_two_;
+
+  REQUIRE(list.size() == 0);
+  REQUIRE(list.empty());
+
+  REQUIRE(list_two_.size() == 0);
+  REQUIRE(list_two_.empty());
+
+  SECTION("Empty lists") {
+    REQUIRE(list == list_two_);
+  }
+
+  SECTION("One empty list") {
+    list_two_.push_back(2);
+    REQUIRE_FALSE(list == list_two_);
+  }
+
+  SECTION("Equal Lists one element") {
+    list.push_back(2);
+    list_two_.push_back(2);
+
+    REQUIRE(list == list_two_);
+  }
+
+  SECTION("Equal lists multiple elements") {
+
+  }
+
+  SECTION("Lists not equal with one element") {
+
+  }
+
+  SECTION("Lists not equal with multiple elements") {
+
+  }
+}
+
+TEST_CASE("Inequality Operator") {
+  LinkedList<int> list;
+  LinkedList<int> list_two_;
+
+  REQUIRE(list.size() == 0);
+  REQUIRE(list.empty());
+
+  REQUIRE(list_two_.size() == 0);
+  REQUIRE(list_two_.empty());
+
+  SECTION("Equal Lists") {
+
+  }
+
+  SECTION("Inequality with one element in lists") {
+
+  }
+
+  SECTION("Inequality with multiple elements in lists") {
+
   }
 }
