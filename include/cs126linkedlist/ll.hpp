@@ -1,10 +1,10 @@
 // Copyright (c) 2020 CS126SP20. All rights reserved.
 
-#include "ll.h"
-
 #include <cassert>
 #include <utility>
 #include <vector>
+
+#include "ll.h"
 
 namespace cs126linkedlist {
 
@@ -24,7 +24,7 @@ LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {
 // Copy constructor
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(const LinkedList<ElementType>& source) {
-  Node *curr_ = source.head_;
+  Node* curr_ = source.head_;
   while (curr_ != nullptr) {
     push_back(curr_);
     curr_ = curr_->next_;
@@ -56,12 +56,11 @@ LinkedList<ElementType>& LinkedList<ElementType>::operator=(
 // Move assignment operator
 template <typename ElementType>
 LinkedList<ElementType>& LinkedList<ElementType>::operator=(
-    LinkedList<ElementType>&& source) noexcept {
-}
+    LinkedList<ElementType>&& source) noexcept {}
 
 template <typename ElementType>
 void LinkedList<ElementType>::push_front(const ElementType& value) {
-  Node *new_node_ = new Node;
+  Node* new_node_ = new Node;
   new_node_->element_ = value;
   new_node_->next_ = head_;
   head_ = new_node_;
@@ -69,7 +68,7 @@ void LinkedList<ElementType>::push_front(const ElementType& value) {
 
 template <typename ElementType>
 void LinkedList<ElementType>::push_back(const ElementType& value) {
-  Node *new_node_ = new Node;
+  Node* new_node_ = new Node;
   new_node_->next_ = nullptr;
   new_node_->element_ = value;
 
@@ -99,7 +98,7 @@ ElementType LinkedList<ElementType>::back() const {
     throw std::invalid_argument("Empty list");
   }
 
-  Node *curr_ = head_;
+  Node* curr_ = head_;
   while (curr_->next_ != nullptr) {
     curr_ = curr_->next_;
   }
@@ -112,7 +111,7 @@ void LinkedList<ElementType>::pop_front() {
     throw std::invalid_argument("Empty list");
   }
 
-  Node *curr_ = head_;
+  Node* curr_ = head_;
   head_ = head_->next_;
   delete curr_;
 }
@@ -129,8 +128,8 @@ void LinkedList<ElementType>::pop_back() {
     return;
   }
 
-  Node *curr_ = head_;
-  Node *second_to_last_ = head_->next_;
+  Node* curr_ = head_;
+  Node* second_to_last_ = head_->next_;
 
   while (second_to_last_->next_ != nullptr) {
     curr_ = curr_->next_;
@@ -143,7 +142,7 @@ void LinkedList<ElementType>::pop_back() {
 template <typename ElementType>
 size_t LinkedList<ElementType>::size() const {
   size_t count = 0;
-  Node *curr_ = head_;
+  Node* curr_ = head_;
 
   while (curr_ != nullptr) {
     count++;
@@ -159,10 +158,10 @@ bool LinkedList<ElementType>::empty() const {
 
 template <typename ElementType>
 void LinkedList<ElementType>::clear() {
-  Node *curr_ = head_;
+  Node* curr_ = head_;
 
   while (curr_ != nullptr) {
-    Node *next = curr_->next_;
+    Node* next = curr_->next_;
     delete curr_;
     curr_ = next;
   }
@@ -172,7 +171,6 @@ void LinkedList<ElementType>::clear() {
 template <typename ElementType>
 std::ostream& operator<<(std::ostream& os,
                          const LinkedList<ElementType>& list) {
-
   size_t count = 0;
   for (const ElementType& element : list) {
     ++count;
@@ -187,7 +185,7 @@ std::ostream& operator<<(std::ostream& os,
 
 template <typename ElementType>
 void LinkedList<ElementType>::RemoveNth(size_t n) {
-  Node *curr_ = head_;
+  Node* curr_ = head_;
 
   if (n == 0) {
     pop_front();
@@ -199,18 +197,18 @@ void LinkedList<ElementType>::RemoveNth(size_t n) {
   }
 
   for (size_t i = 0; i < n - 1; ++i) {
-    curr_ = curr_->next_; // node prior to one to be deleted
+    curr_ = curr_->next_;  // node prior to one to be deleted
   }
 
-  Node *after_ = curr_->next_->next_; // node after the one to be removed
-  delete curr_->next_; // curr_->next_ is the node to be deleted
+  Node* after_ = curr_->next_->next_;  // node after the one to be removed
+  delete curr_->next_;                 // curr_->next_ is the node to be deleted
   curr_->next_ = after_;
 }
 
 template <typename ElementType>
 void LinkedList<ElementType>::RemoveOdd() {
-  Node *even_ = head_;
-  Node *odd_ = head_->next_;
+  Node* even_ = head_;
+  Node* odd_ = head_->next_;
 
   while (even_ != nullptr && odd_ != nullptr) {
     even_->next_ = odd_->next_;
@@ -227,7 +225,6 @@ void LinkedList<ElementType>::RemoveOdd() {
 template <typename ElementType>
 bool LinkedList<ElementType>::operator==(
     const LinkedList<ElementType>& rhs) const {
-
   if (head_ == nullptr && rhs.head_ == nullptr) {
     return true;
   } else if (head_ == nullptr || rhs.head_ == nullptr) {
@@ -238,8 +235,8 @@ bool LinkedList<ElementType>::operator==(
     return false;
   }
 
-  Node * new_head_ = head_;
-  Node *new_rhs_ = rhs.head_;
+  Node* new_head_ = head_;
+  Node* new_rhs_ = rhs.head_;
 
   while (new_head_ != nullptr && new_rhs_ != nullptr) {
     if (new_head_->element_ != new_rhs_->element_) {
@@ -255,7 +252,6 @@ bool LinkedList<ElementType>::operator==(
 template <typename ElementType>
 bool LinkedList<ElementType>::operator!=(
     const LinkedList<ElementType>& rhs) const {
-
   if (head_ == nullptr && rhs.head_ == nullptr) {
     return false;
   } else if (head_ == nullptr || rhs.head_ == nullptr) {
@@ -266,8 +262,8 @@ bool LinkedList<ElementType>::operator!=(
     return true;
   }
 
-  Node * new_head_ = head_;
-  Node *new_rhs_ = rhs.head_;
+  Node* new_head_ = head_;
+  Node* new_rhs_ = rhs.head_;
 
   while (new_head_ != nullptr && new_rhs_ != nullptr) {
     if (new_head_->element_ != new_rhs_->element_) {
@@ -281,8 +277,8 @@ bool LinkedList<ElementType>::operator!=(
 }
 
 template <typename ElementType>
-typename LinkedList<ElementType>::iterator& LinkedList<ElementType>::iterator::
-operator++() {
+typename LinkedList<ElementType>::iterator&
+LinkedList<ElementType>::iterator::operator++() {
   current_ = current_->next_;
   return *this;
 }

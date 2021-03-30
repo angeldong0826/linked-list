@@ -2,8 +2,9 @@
 
 #define CATCH_CONFIG_MAIN
 
-#include <catch2/catch.hpp>
 #include <cs126linkedlist/ll.h>
+
+#include <catch2/catch.hpp>
 
 using cs126linkedlist::LinkedList;
 
@@ -42,17 +43,11 @@ TEST_CASE("Copy Constructor") {
   REQUIRE(list.size() == 0);
   REQUIRE(list.empty());
 
-  SECTION("Empty list") {
+  SECTION("Empty list") {}
 
-  }
+  SECTION("List with one element") {}
 
-  SECTION("List with one element") {
-
-  }
-
-  SECTION("List with multiple elements") {
-
-  }
+  SECTION("List with multiple elements") {}
 }
 
 TEST_CASE("Destructor") {
@@ -61,20 +56,14 @@ TEST_CASE("Destructor") {
   REQUIRE(list.size() == 0);
   REQUIRE(list.empty());
 
-  SECTION("Empty list") {
+  SECTION("Empty list") {}
 
-  }
+  SECTION("List with one element") {}
 
-  SECTION("List with one element") {
-
-  }
-
-  SECTION("List with multiple elements") {
-
-  }
+  SECTION("List with multiple elements") {}
 }
 
-TEST_CASE("Push Back", "[constructor][push_back][size][empty]") {
+TEST_CASE("Push Back", "[constructor][push_back][size][empty][front][back]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -103,7 +92,7 @@ TEST_CASE("Push Back", "[constructor][push_back][size][empty]") {
   }
 }
 
-TEST_CASE("Push Front") {
+TEST_CASE("Push Front", "[constructor][push_front][size][empty][front][back]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -132,7 +121,8 @@ TEST_CASE("Push Front") {
   }
 }
 
-TEST_CASE("Push Front and Back") {
+TEST_CASE("Push Front and Back",
+          "[constructor][push_front][push_back][size][empty][front][back]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -156,15 +146,12 @@ TEST_CASE("Push Front and Back") {
     REQUIRE(list.front() == -1);
     REQUIRE(list.back() == 32);
   }
-
 }
 
-TEST_CASE("Size") {
+TEST_CASE("Size", "[constructor][size][push_front]") {
   LinkedList<int> list;
 
-  SECTION("No element in list") {
-    REQUIRE(list.size() == 0);
-  }
+  SECTION("No element in list") { REQUIRE(list.size() == 0); }
 
   SECTION("One element in list") {
     list.push_front(10000);
@@ -181,7 +168,7 @@ TEST_CASE("Size") {
   }
 }
 
-TEST_CASE("Front") {
+TEST_CASE("Front", "[constructor][push_front][size][empty][front]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -191,8 +178,7 @@ TEST_CASE("Front") {
     try {
       list.front();
       FAIL();
-    }
-    catch(std::invalid_argument& error){
+    } catch (std::invalid_argument& error) {
     };
 
     REQUIRE(list.size() == 0);
@@ -213,7 +199,7 @@ TEST_CASE("Front") {
   }
 }
 
-TEST_CASE("Back") {
+TEST_CASE("Back", "[constructor][push_front][size][empty][back]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -223,8 +209,7 @@ TEST_CASE("Back") {
     try {
       list.back();
       FAIL();
-    }
-    catch(std::invalid_argument& error){
+    } catch (std::invalid_argument& error) {
     };
 
     REQUIRE(list.size() == 0);
@@ -245,7 +230,8 @@ TEST_CASE("Back") {
   }
 }
 
-TEST_CASE("Call on Front and Back") {
+TEST_CASE("Call on Front and Back",
+          "[constructor][push_front][push_back][size][empty][front][back]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -271,7 +257,7 @@ TEST_CASE("Call on Front and Back") {
   }
 }
 
-TEST_CASE("Clear") {
+TEST_CASE("Clear", "[constructor][push_front][push_back][size][empty][clear]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -305,7 +291,9 @@ TEST_CASE("Clear") {
   }
 }
 
-TEST_CASE("Pop Front") {
+TEST_CASE(
+    "Pop Front",
+    "[constructor][push_front][push_back][pop_front][size][empty][front]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -315,8 +303,7 @@ TEST_CASE("Pop Front") {
     try {
       list.pop_front();
       FAIL();
-    }
-    catch(std::invalid_argument& error){
+    } catch (std::invalid_argument& error) {
     };
 
     REQUIRE(list.size() == 0);
@@ -336,7 +323,7 @@ TEST_CASE("Pop Front") {
     list.pop_front();
 
     REQUIRE(list.size() == 1);
-    REQUIRE(list.front() ==  10000);
+    REQUIRE(list.front() == 10000);
   }
 
   SECTION("Multiple pop front") {
@@ -349,7 +336,9 @@ TEST_CASE("Pop Front") {
   }
 }
 
-TEST_CASE("Pop Back") {
+TEST_CASE("Pop Back",
+          "[constructor][push_front][push_back][pop_back][size][empty][front]["
+          "back]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -359,8 +348,7 @@ TEST_CASE("Pop Back") {
     try {
       list.pop_back();
       FAIL();
-    }
-    catch(std::invalid_argument& error){
+    } catch (std::invalid_argument& error) {
     };
 
     REQUIRE(list.size() == 0);
@@ -397,7 +385,9 @@ TEST_CASE("Pop Back") {
   }
 }
 
-TEST_CASE("Pop Front and Back") {
+TEST_CASE("Pop Front and Back",
+          "[constructor][push_front][push_back][pop_front][pop_back][size]["
+          "empty][front][back]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -425,7 +415,9 @@ TEST_CASE("Pop Front and Back") {
   }
 }
 
-TEST_CASE("Remove Nth") {
+TEST_CASE("Remove Nth",
+          "[constructor][push_front][push_back][size][empty][front][back]["
+          "RemoveNth]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -595,7 +587,9 @@ TEST_CASE("Remove Nth") {
   }
 }
 
-TEST_CASE("Remove odd") {
+TEST_CASE("Remove odd",
+          "[constructor][push_front][push_back][size][empty][front][back]["
+          "RemoveOdd]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -696,7 +690,7 @@ TEST_CASE("Remove odd") {
   }
 }
 
-TEST_CASE("Equality Operator") {
+TEST_CASE("Equality Operator", "[constructor][push_back][size][empty][==]") {
   LinkedList<int> list;
   LinkedList<int> list_two_;
 
@@ -706,9 +700,7 @@ TEST_CASE("Equality Operator") {
   REQUIRE(list_two_.size() == 0);
   REQUIRE(list_two_.empty());
 
-  SECTION("Empty lists") {
-    REQUIRE(list == list_two_);
-  }
+  SECTION("Empty lists") { REQUIRE(list == list_two_); }
 
   SECTION("One empty list") {
     list_two_.push_back(2);
@@ -766,7 +758,7 @@ TEST_CASE("Equality Operator") {
   }
 }
 
-TEST_CASE("Inequality Operator") {
+TEST_CASE("Inequality Operator", "[constructor][push_back][size][empty][!=]") {
   LinkedList<int> list;
   LinkedList<int> list_two_;
 
@@ -776,9 +768,7 @@ TEST_CASE("Inequality Operator") {
   REQUIRE(list_two_.size() == 0);
   REQUIRE(list_two_.empty());
 
-  SECTION("Empty Lists") {
-    REQUIRE_FALSE(list != list_two_);
-  }
+  SECTION("Empty Lists") { REQUIRE_FALSE(list != list_two_); }
 
   SECTION("One empty list") {
     list_two_.push_back(2);
@@ -836,7 +826,7 @@ TEST_CASE("Inequality Operator") {
   }
 }
 
-TEST_CASE("Print operator") {
+TEST_CASE("Print operator", "[constructor][push_back][<<][ostream]") {
   LinkedList<int> list;
 
   SECTION("Empty list") {
@@ -924,7 +914,8 @@ TEST_CASE("Print operator") {
   }
 }
 
-TEST_CASE("Iterator") {
+TEST_CASE("Iterator",
+          "[constructor][push_back][iterator][begin][end][++][!=][*]") {
   LinkedList<int> list;
   LinkedList<int>::iterator iterator;
 
@@ -938,7 +929,7 @@ TEST_CASE("Iterator") {
     REQUIRE(*iterator == 27);
   }
 
-  ///TODO
+  /// TODO
   SECTION("End") {
     list.push_back(27);
     list.push_back(2);
@@ -965,6 +956,7 @@ TEST_CASE("Iterator") {
 
     iterator = list.begin();
     ++iterator;
+
     REQUIRE_FALSE(*iterator == -20);
   }
 
@@ -975,6 +967,7 @@ TEST_CASE("Iterator") {
 
     iterator = list.begin();
     ++iterator;
+
     REQUIRE(*iterator != -20);
   }
 
@@ -985,6 +978,7 @@ TEST_CASE("Iterator") {
 
     iterator = list.begin();
     ++iterator;
+
     REQUIRE_FALSE(*iterator != 2);
   }
 
@@ -993,6 +987,7 @@ TEST_CASE("Iterator") {
     list.push_back(2);
 
     iterator = list.begin();
+
     REQUIRE(*iterator == 27);
   }
 
@@ -1001,12 +996,14 @@ TEST_CASE("Iterator") {
     list.push_back(2);
 
     iterator = list.begin();
+
     REQUIRE_FALSE(*iterator == 2);
     REQUIRE(*iterator == 27);
   }
 }
 
-TEST_CASE("Const Iterator") {
+TEST_CASE("Const Iterator",
+          "[constructor][push_back][const_iterator][begin][end][++][!=][*]") {
   const LinkedList<int> list({37, 3, -30});
   LinkedList<int>::const_iterator iterator;
 
@@ -1016,7 +1013,7 @@ TEST_CASE("Const Iterator") {
     REQUIRE(*iterator == 37);
   }
 
-  ///TODO
+  /// TODO
   SECTION("End") {
     const LinkedList<int> list({37, 3, -30});
     LinkedList<int>::const_iterator iterator;
@@ -1040,6 +1037,7 @@ TEST_CASE("Const Iterator") {
 
     iterator = list.begin();
     ++iterator;
+
     REQUIRE_FALSE(*iterator == -30);
   }
 
@@ -1049,6 +1047,7 @@ TEST_CASE("Const Iterator") {
 
     iterator = list.begin();
     ++iterator;
+
     REQUIRE(*iterator != -30);
   }
 
@@ -1058,6 +1057,7 @@ TEST_CASE("Const Iterator") {
 
     iterator = list.begin();
     ++iterator;
+
     REQUIRE_FALSE(*iterator != 3);
   }
 
@@ -1066,6 +1066,7 @@ TEST_CASE("Const Iterator") {
     LinkedList<int>::const_iterator iterator;
 
     iterator = list.begin();
+
     REQUIRE(*iterator == 37);
   }
 
@@ -1074,6 +1075,7 @@ TEST_CASE("Const Iterator") {
     LinkedList<int>::const_iterator iterator;
 
     iterator = list.begin();
+
     REQUIRE_FALSE(*iterator == 3);
     REQUIRE(*iterator == 37);
   }
