@@ -24,11 +24,22 @@ LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {
 // Copy constructor
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(const LinkedList<ElementType>& source) {
-  Node* curr_ = source.head_;
-  while (curr_ != nullptr) {
-    push_back(curr_);
-    curr_ = curr_->next_;
+  if (source.head_ == nullptr) {
+    return;
   }
+
+  head_ = new Node;
+  head_->element_ = source.head_->element_;
+  Node *curr_ = head_;
+  Node * source_curr_ = source.head_->next_;
+
+  while (source_curr_ != nullptr) {
+    curr_->next_ = new Node;
+    curr_ = curr_->next_;
+    curr_->element_ = source_curr_->element_;
+    source_curr_ = source_curr_->next_;
+  }
+  curr_->next_ = nullptr;
 }
 
 // Move constructor

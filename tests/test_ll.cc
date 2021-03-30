@@ -43,24 +43,28 @@ TEST_CASE("Copy Constructor") {
   REQUIRE(list.size() == 0);
   REQUIRE(list.empty());
 
-  SECTION("Empty list") {}
+  SECTION("Empty list") {
+    LinkedList<int> list_two(list);
 
-  SECTION("List with one element") {}
+    REQUIRE(list_two.size() == 0);
+    REQUIRE(list_two.empty());
+  }
 
-  SECTION("List with multiple elements") {}
-}
+  SECTION("List with one element") {
+    LinkedList<int> list({-89});
+    LinkedList<int> list_two(list);
 
-TEST_CASE("Destructor") {
-  LinkedList<int> list;
+    REQUIRE(list_two.front() == -89);
+    REQUIRE(list_two.back() == -89);
+  }
 
-  REQUIRE(list.size() == 0);
-  REQUIRE(list.empty());
+  SECTION("List with multiple elements") {
+    LinkedList<int> list({-89, 0, 5, 8});
+    LinkedList<int> list_two(list);
 
-  SECTION("Empty list") {}
-
-  SECTION("List with one element") {}
-
-  SECTION("List with multiple elements") {}
+    REQUIRE(list_two.front() == -89);
+    REQUIRE(list_two.back() == 8);
+  }
 }
 
 TEST_CASE("Push Back", "[constructor][push_back][size][empty][front][back]") {
