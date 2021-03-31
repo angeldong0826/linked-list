@@ -16,8 +16,10 @@ LinkedList<ElementType>::LinkedList() {
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {
   head_ = nullptr;
-  for (size_t idx = 0; idx < values.size(); ++idx) {
-    push_back(values[idx]);
+
+  for (size_t idx = 0; idx < values.size();
+       ++idx) {              // loop through vector input
+    push_back(values[idx]);  // push back vector elements to list
   }
 }
 
@@ -25,13 +27,14 @@ LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(const LinkedList<ElementType>& source) {
   if (source.head_ == nullptr) {
+    head_ = nullptr;
     return;
   }
 
   head_ = new Node;
   head_->element_ = source.head_->element_;
-  Node *curr_ = head_;
-  Node *source_curr_ = source.head_->next_;
+  Node* curr_ = head_;
+  Node* source_curr_ = source.head_->next_;
 
   while (source_curr_ != nullptr) {
     curr_->next_ = new Node;
@@ -39,53 +42,30 @@ LinkedList<ElementType>::LinkedList(const LinkedList<ElementType>& source) {
     curr_->element_ = source_curr_->element_;
     source_curr_ = source_curr_->next_;
   }
+
   curr_->next_ = nullptr;
 }
 
 // Move constructor
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(LinkedList<ElementType>&& source) noexcept {
-  head_ = source.head_;
-  source.head_ = nullptr;
-
-//  if (source.head_ == nullptr) {
-//    return;
-//  }
-//
-//  head_ = new Node;
-//  head_->element_ = source.head_->element_;
-//  Node *curr_ = head_;
-//  Node *source_curr_ = source.head_->next_;
-//
-//  while (source_curr_ != nullptr) {
-//    curr_->next_ = new Node;
-//    curr_ = curr_->next_;
-//    curr_->element_ = source_curr_->element_;
-//    source_curr_ = source_curr_->next_;
-//  }
-//  curr_->next_ = nullptr;
-//
-//  source.clear();
+  head_ = source.head_;    // set head_ node to input source
+  source.head_ = nullptr;  // set source to null pointer
 }
 
 // Destructor
 template <typename ElementType>
 LinkedList<ElementType>::~LinkedList() {
-  clear();
-  delete head_;
+  clear();       // clear node
+  delete head_;  // delete/remove node completely
 }
 
 // Copy assignment operator
 template <typename ElementType>
 LinkedList<ElementType>& LinkedList<ElementType>::operator=(
     const LinkedList<ElementType>& source) {
-  if (source.head_ == nullptr) {
-    return;
-  }
-
   clear();
-  push_back(*source);
-  return *this;
+  head_ = new LinkedList<ElementType>(source);
 }
 
 // Move assignment operator
@@ -97,6 +77,7 @@ LinkedList<ElementType>& LinkedList<ElementType>::operator=(
     head_ = source.head_;
     source.head_ = nullptr;
   }
+
   return *this;
 }
 
@@ -131,6 +112,7 @@ ElementType LinkedList<ElementType>::front() const {
   if (head_ == nullptr) {
     throw std::invalid_argument("Empty list");
   }
+
   return head_->element_;
 }
 
@@ -144,15 +126,12 @@ ElementType LinkedList<ElementType>::back() const {
   while (curr_->next_ != nullptr) {
     curr_ = curr_->next_;
   }
+
   return curr_->element_;
 }
 
 template <typename ElementType>
 void LinkedList<ElementType>::pop_front() {
-  if (head_ == nullptr) {
-    throw std::invalid_argument("Empty list");
-  }
-
   Node* curr_ = head_;
   head_ = head_->next_;
   delete curr_;
@@ -160,10 +139,6 @@ void LinkedList<ElementType>::pop_front() {
 
 template <typename ElementType>
 void LinkedList<ElementType>::pop_back() {
-  if (head_ == nullptr) {
-    throw std::invalid_argument("Empty list");
-  }
-
   if (head_->next_ == nullptr) {
     delete head_;
     head_ = nullptr;
@@ -190,6 +165,7 @@ size_t LinkedList<ElementType>::size() const {
     count++;
     curr_ = curr_->next_;
   }
+
   return count;
 }
 
@@ -216,12 +192,14 @@ std::ostream& operator<<(std::ostream& os,
   size_t count = 0;
   for (const ElementType& element : list) {
     ++count;
+
     if (count == list.size()) {
       os << element;
     } else {
       os << element << ", ";
     }
   }
+
   return os;
 }
 
@@ -322,6 +300,7 @@ template <typename ElementType>
 typename LinkedList<ElementType>::iterator&
 LinkedList<ElementType>::iterator::operator++() {
   current_ = current_->next_;
+
   return *this;
 }
 
@@ -336,6 +315,7 @@ bool LinkedList<ElementType>::iterator::operator!=(
   if (other.current_ == current_) {
     return false;
   }
+
   return true;
 }
 
@@ -353,6 +333,7 @@ template <typename ElementType>
 typename LinkedList<ElementType>::const_iterator&
 LinkedList<ElementType>::const_iterator::operator++() {
   current_ = current_->next_;
+
   return *this;
 }
 
@@ -367,6 +348,7 @@ bool LinkedList<ElementType>::const_iterator::operator!=(
   if (other.current_ == current_) {
     return false;
   }
+
   return true;
 }
 

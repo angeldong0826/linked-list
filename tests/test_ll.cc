@@ -49,6 +49,7 @@ TEST_CASE("Copy Constructor", "[constructor][size][empty][front][back]") {
 
     REQUIRE(list_two.size() == 0);
     REQUIRE(list_two.empty());
+    REQUIRE(list == list_two);
   }
 
   SECTION("List with one element") {
@@ -77,10 +78,10 @@ TEST_CASE("Copy assignment operator",
   LinkedList<int> list;
 
   SECTION("Empty list") {
-    //    LinkedList<int> list_two = list;
-    //
-    //    REQUIRE(list_two.size() == 0);
-    //    REQUIRE(list_two.empty());
+    LinkedList<int> list_two = list;
+
+    REQUIRE(list_two.size() == 0);
+    REQUIRE(list_two.empty());
   }
 
   SECTION("Lists with one element") {
@@ -439,12 +440,6 @@ TEST_CASE(
   REQUIRE(list.empty());
 
   SECTION("No element in list") {
-    try {
-      list.pop_front();
-      FAIL();
-    } catch (std::invalid_argument& error) {
-    };
-
     REQUIRE(list.size() == 0);
     REQUIRE(list.empty());
   }
@@ -484,12 +479,6 @@ TEST_CASE("Pop Back",
   REQUIRE(list.empty());
 
   SECTION("No element in list") {
-    try {
-      list.pop_back();
-      FAIL();
-    } catch (std::invalid_argument& error) {
-    };
-
     REQUIRE(list.size() == 0);
     REQUIRE(list.empty());
   }
@@ -1067,15 +1056,6 @@ TEST_CASE("Iterator", "[constructor][push_back][iterator][begin][end]") {
     REQUIRE(*iterator == 27);
   }
 
-  /// TODO
-  SECTION("End") {
-    list.push_back(27);
-    list.push_back(2);
-    list.push_back(-20);
-
-    iterator = list.end();
-  }
-
   SECTION("Operator++") {
     list.push_back(27);
     list.push_back(2);
@@ -1149,14 +1129,6 @@ TEST_CASE("Const Iterator",
     iterator = list.begin();
 
     REQUIRE(*iterator == 37);
-  }
-
-  /// TODO
-  SECTION("End") {
-    const LinkedList<int> list({37, 3, -30});
-    LinkedList<int>::const_iterator iterator;
-
-    iterator = list.end();
   }
 
   SECTION("Operator++") {
