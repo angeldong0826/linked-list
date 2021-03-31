@@ -17,9 +17,8 @@ template <typename ElementType>
 LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {
   head_ = nullptr;
 
-  for (size_t idx = 0; idx < values.size();
-       ++idx) {              // loop through vector input
-    push_back(values[idx]);  // push back vector elements to list
+  for (size_t idx = 0; idx < values.size(); ++idx) {
+    push_back(values[idx]);
   }
 }
 
@@ -49,15 +48,34 @@ LinkedList<ElementType>::LinkedList(const LinkedList<ElementType>& source) {
 // Move constructor
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(LinkedList<ElementType>&& source) noexcept {
-  head_ = source.head_;    // set head_ node to input source
-  source.head_ = nullptr;  // set source to null pointer
+
+  if (source.head_ == nullptr) {
+    head_ = nullptr;
+    return;
+  }
+
+  head_ = new Node;
+  head_->element_ = source.head_->element_;
+  Node* curr_ = head_;
+  Node* source_curr_ = source.head_->next_;
+
+  while (source_curr_ != nullptr) {
+    curr_->next_ = new Node;
+    curr_ = curr_->next_;
+    curr_->element_ = source_curr_->element_;
+    source_curr_ = source_curr_->next_;
+  }
+
+  curr_->next_ = nullptr;
+
+  source.clear();
 }
 
 // Destructor
 template <typename ElementType>
 LinkedList<ElementType>::~LinkedList() {
-  clear();       // clear node
-  delete head_;  // delete/remove node completely
+  clear();
+  delete head_;
 }
 
 // Copy assignment operator
@@ -162,7 +180,7 @@ size_t LinkedList<ElementType>::size() const {
   Node* curr_ = head_;
 
   while (curr_ != nullptr) {
-    count++;
+    ++count;
     curr_ = curr_->next_;
   }
 
@@ -217,11 +235,11 @@ void LinkedList<ElementType>::RemoveNth(size_t n) {
   }
 
   for (size_t i = 0; i < n - 1; ++i) {
-    curr_ = curr_->next_;  // node prior to one to be deleted
+    curr_ = curr_->next_;
   }
 
-  Node* after_ = curr_->next_->next_;  // node after the one to be removed
-  delete curr_->next_;                 // curr_->next_ is the node to be deleted
+  Node* after_ = curr_->next_->next_;
+  delete curr_->next_;
   curr_->next_ = after_;
 }
 

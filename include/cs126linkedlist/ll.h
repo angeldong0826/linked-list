@@ -10,6 +10,11 @@
 namespace cs126linkedlist {
 
 // Template for a linked list class.
+/**
+ * Implementation of linked list class.
+ *
+ * @tparam ElementType
+ */
 template <typename ElementType>
 class LinkedList {
  private:
