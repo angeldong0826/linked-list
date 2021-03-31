@@ -31,7 +31,7 @@ LinkedList<ElementType>::LinkedList(const LinkedList<ElementType>& source) {
   head_ = new Node;
   head_->element_ = source.head_->element_;
   Node *curr_ = head_;
-  Node * source_curr_ = source.head_->next_;
+  Node *source_curr_ = source.head_->next_;
 
   while (source_curr_ != nullptr) {
     curr_->next_ = new Node;
@@ -46,6 +46,24 @@ LinkedList<ElementType>::LinkedList(const LinkedList<ElementType>& source) {
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(LinkedList<ElementType>&& source) noexcept {
 
+  if (source.head_ == nullptr) {
+    return;
+  }
+
+  head_ = new Node;
+  head_->element_ = source.head_->element_;
+  Node *curr_ = head_;
+  Node *source_curr_ = source.head_->next_;
+
+  while (source_curr_ != nullptr) {
+    curr_->next_ = new Node;
+    curr_ = curr_->next_;
+    curr_->element_ = source_curr_->element_;
+    source_curr_ = source_curr_->next_;
+  }
+  curr_->next_ = nullptr;
+
+  source.clear();
 }
 
 // Destructor
@@ -59,6 +77,10 @@ LinkedList<ElementType>::~LinkedList() {
 template <typename ElementType>
 LinkedList<ElementType>& LinkedList<ElementType>::operator=(
     const LinkedList<ElementType>& source) {
+  if (source.head_ == nullptr) {
+    return;
+  }
+
   clear();
   push_back(*source);
   return *this;

@@ -67,6 +67,100 @@ TEST_CASE("Copy Constructor") {
   }
 }
 
+TEST_CASE("Copy assignment operator") {
+  LinkedList<int> list;
+
+  SECTION("Empty list") {
+//    LinkedList<int> list_two = list;
+//
+//    REQUIRE(list_two.size() == 0);
+//    REQUIRE(list_two.empty());
+  }
+
+  SECTION("Lists with one element") {
+    list.push_back(9);
+
+    REQUIRE(list.size() == 1);
+
+    LinkedList<int> list_two = list;
+
+    REQUIRE(list_two.size() == 1);
+    REQUIRE(list_two.front() == 9);
+    REQUIRE(list_two.back() == 9);
+  }
+
+  SECTION("List with multiple elements") {
+    list.push_back(9);
+    list.push_back(56789);
+    list.push_back(-9);
+
+    REQUIRE(list.size() == 3);
+
+    LinkedList<int> list_two = list;
+
+    REQUIRE(list_two.size() == 3);
+    REQUIRE(list_two.front() == 9);
+    REQUIRE(list_two.back() == -9);
+  }
+}
+
+TEST_CASE("Move constructor") {
+  LinkedList<int> list;
+
+  SECTION("No element in list") {
+    REQUIRE(list.size() == 0);
+
+    LinkedList<int> list_two = std::move(list);
+
+    REQUIRE(list_two.size() == 0);
+    REQUIRE(list_two.empty());
+  }
+
+  SECTION("One element in list") {
+    list.push_back(3);
+
+    REQUIRE(list.size() == 1);
+
+    LinkedList<int> list_two = std::move(list);
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list_two.size() == 1);
+    REQUIRE(list_two.front() == 3);
+    REQUIRE(list_two.back() == 3);
+  }
+
+  SECTION("Multiple elements in list") {
+    list.push_back(3);
+    list.push_back(0);
+    list.push_back(-3);
+
+    REQUIRE(list.size() == 3);
+
+    LinkedList<int> list_two = std::move(list);
+
+    REQUIRE(list_two.size() == 3);
+    REQUIRE(list_two.front() == 3);
+    REQUIRE(list_two.back() == -3);
+  }
+}
+
+TEST_CASE("Move assignment operator") {
+  LinkedList<int> list;
+
+  SECTION("No element in list") {
+
+  }
+
+  SECTION("One element in list") {
+
+  }
+
+  SECTION("Multiple elements in list") {
+
+  }
+
+}
+
 TEST_CASE("Push Back", "[constructor][push_back][size][empty][front][back]") {
   LinkedList<int> list;
 
