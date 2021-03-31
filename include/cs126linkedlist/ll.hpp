@@ -45,25 +45,27 @@ LinkedList<ElementType>::LinkedList(const LinkedList<ElementType>& source) {
 // Move constructor
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(LinkedList<ElementType>&& source) noexcept {
+  head_ = source.head_;
+  source.head_ = nullptr;
 
-  if (source.head_ == nullptr) {
-    return;
-  }
-
-  head_ = new Node;
-  head_->element_ = source.head_->element_;
-  Node *curr_ = head_;
-  Node *source_curr_ = source.head_->next_;
-
-  while (source_curr_ != nullptr) {
-    curr_->next_ = new Node;
-    curr_ = curr_->next_;
-    curr_->element_ = source_curr_->element_;
-    source_curr_ = source_curr_->next_;
-  }
-  curr_->next_ = nullptr;
-
-  source.clear();
+//  if (source.head_ == nullptr) {
+//    return;
+//  }
+//
+//  head_ = new Node;
+//  head_->element_ = source.head_->element_;
+//  Node *curr_ = head_;
+//  Node *source_curr_ = source.head_->next_;
+//
+//  while (source_curr_ != nullptr) {
+//    curr_->next_ = new Node;
+//    curr_ = curr_->next_;
+//    curr_->element_ = source_curr_->element_;
+//    source_curr_ = source_curr_->next_;
+//  }
+//  curr_->next_ = nullptr;
+//
+//  source.clear();
 }
 
 // Destructor
@@ -89,7 +91,14 @@ LinkedList<ElementType>& LinkedList<ElementType>::operator=(
 // Move assignment operator
 template <typename ElementType>
 LinkedList<ElementType>& LinkedList<ElementType>::operator=(
-    LinkedList<ElementType>&& source) noexcept {}
+    LinkedList<ElementType>&& source) noexcept {
+  if (this != &source) {
+    clear();
+    head_ = source.head_;
+    source.head_ = nullptr;
+  }
+  return *this;
+}
 
 template <typename ElementType>
 void LinkedList<ElementType>::push_front(const ElementType& value) {

@@ -12,7 +12,8 @@ using cs126linkedlist::LinkedList;
 // `https://github.com/catchorg/Catch2/tree/master/docs`
 // in the "Test Cases and Sections" file.
 
-TEST_CASE("Initialize from vector") {
+TEST_CASE("Initialize from vector",
+          "[constructor][vector][size][empty][front][back]") {
   SECTION("Empty vector") {
     std::vector<int> vect;
     LinkedList<int> list(vect);
@@ -37,7 +38,7 @@ TEST_CASE("Initialize from vector") {
   }
 }
 
-TEST_CASE("Copy Constructor") {
+TEST_CASE("Copy Constructor", "[constructor][size][empty][front][back]") {
   LinkedList<int> list;
 
   REQUIRE(list.size() == 0);
@@ -56,6 +57,8 @@ TEST_CASE("Copy Constructor") {
 
     REQUIRE(list_two.front() == -89);
     REQUIRE(list_two.back() == -89);
+    REQUIRE(list.front() == list_two.front());
+    REQUIRE(list == list_two);
   }
 
   SECTION("List with multiple elements") {
@@ -64,17 +67,20 @@ TEST_CASE("Copy Constructor") {
 
     REQUIRE(list_two.front() == -89);
     REQUIRE(list_two.back() == 8);
+    REQUIRE(list.front() == list_two.front());
+    REQUIRE(list == list_two);
   }
 }
 
-TEST_CASE("Copy assignment operator") {
+TEST_CASE("Copy assignment operator",
+          "[constructor][push_back][size][empty][front][back]") {
   LinkedList<int> list;
 
   SECTION("Empty list") {
-//    LinkedList<int> list_two = list;
-//
-//    REQUIRE(list_two.size() == 0);
-//    REQUIRE(list_two.empty());
+    //    LinkedList<int> list_two = list;
+    //
+    //    REQUIRE(list_two.size() == 0);
+    //    REQUIRE(list_two.empty());
   }
 
   SECTION("Lists with one element") {
@@ -104,7 +110,54 @@ TEST_CASE("Copy assignment operator") {
   }
 }
 
-TEST_CASE("Move constructor") {
+TEST_CASE("Move constructor",
+          "[constructor][push_back][size][empty][front][back]") {
+  LinkedList<int> list;
+
+  SECTION("No element in list") {
+    REQUIRE(list.size() == 0);
+
+    LinkedList<int> list_two(std::move(list));
+
+    REQUIRE(list_two.size() == 0);
+    REQUIRE(list_two.empty());
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
+  }
+
+  SECTION("One element in list") {
+    list.push_back(3);
+
+    REQUIRE(list.size() == 1);
+
+    LinkedList<int> list_two(std::move(list));
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
+    REQUIRE(list_two.size() == 1);
+    REQUIRE(list_two.front() == 3);
+    REQUIRE(list_two.back() == 3);
+  }
+
+  SECTION("Multiple elements in list") {
+    list.push_back(3);
+    list.push_back(0);
+    list.push_back(-3);
+
+    REQUIRE(list.size() == 3);
+
+    LinkedList<int> list_two(std::move(list));
+
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
+    REQUIRE(list_two.size() == 3);
+    REQUIRE(list_two.front() == 3);
+    REQUIRE(list_two.back() == -3);
+  }
+}
+
+TEST_CASE("Move assignment operator",
+          "[constructor][push_back][size][empty][front][back]") {
   LinkedList<int> list;
 
   SECTION("No element in list") {
@@ -114,6 +167,8 @@ TEST_CASE("Move constructor") {
 
     REQUIRE(list_two.size() == 0);
     REQUIRE(list_two.empty());
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
   }
 
   SECTION("One element in list") {
@@ -124,6 +179,7 @@ TEST_CASE("Move constructor") {
     LinkedList<int> list_two = std::move(list);
 
     REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
     REQUIRE(list_two.size() == 1);
     REQUIRE(list_two.front() == 3);
     REQUIRE(list_two.back() == 3);
@@ -138,27 +194,12 @@ TEST_CASE("Move constructor") {
 
     LinkedList<int> list_two = std::move(list);
 
+    REQUIRE(list.size() == 0);
+    REQUIRE(list.empty());
     REQUIRE(list_two.size() == 3);
     REQUIRE(list_two.front() == 3);
     REQUIRE(list_two.back() == -3);
   }
-}
-
-TEST_CASE("Move assignment operator") {
-  LinkedList<int> list;
-
-  SECTION("No element in list") {
-
-  }
-
-  SECTION("One element in list") {
-
-  }
-
-  SECTION("Multiple elements in list") {
-
-  }
-
 }
 
 TEST_CASE("Push Back", "[constructor][push_back][size][empty][front][back]") {
@@ -1012,8 +1053,7 @@ TEST_CASE("Print operator", "[constructor][push_back][ostream]") {
   }
 }
 
-TEST_CASE("Iterator",
-          "[constructor][push_back][iterator][begin][end]") {
+TEST_CASE("Iterator", "[constructor][push_back][iterator][begin][end]") {
   LinkedList<int> list;
   LinkedList<int>::iterator iterator;
 
