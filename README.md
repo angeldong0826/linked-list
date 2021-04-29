@@ -6,4 +6,4 @@
 Read [this document](https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html) to understand the project
 layout.
 
-**Author**: Anonymous - [`adong6@illinois.edu`](mailto:example@illinois.edu)
+**Author**: Angel Dong - [`adong6@illinois.edu`](mailto:example@illinois.edu)
